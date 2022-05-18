@@ -8,6 +8,7 @@ namespace StoreFront.UI.MVC.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+
         }
     }
 }
