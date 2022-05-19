@@ -10,7 +10,7 @@ namespace StoreFront.DATA.EF.Models
             VersionsProducts = new HashSet<VersionsProduct>();
         }
 
-        public int Id { get; set; }
+        public int ID { get; set; }
         public string Name { get; set; } = null!;
 
         public virtual ICollection<VersionsProduct> VersionsProducts { get; set; }

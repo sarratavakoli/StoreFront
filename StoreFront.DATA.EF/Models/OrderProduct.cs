@@ -5,9 +5,9 @@ namespace StoreFront.DATA.EF.Models
 {
     public partial class OrderProduct
     {
-        public int Id { get; set; }
-        public int OrderId { get; set; }
-        public int ProductId { get; set; }
+        public int ID { get; set; }
+        public int OrderID { get; set; }
+        public int ProductID { get; set; }
         public short UnitQuantity { get; set; }
         public string? UnitType { get; set; }
         public decimal? ProductPrice { get; set; }

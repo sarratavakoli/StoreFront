@@ -10,11 +10,11 @@ namespace StoreFront.DATA.EF.Models
             VersionsProducts = new HashSet<VersionsProduct>();
         }
 
-        public int Id { get; set; }
+        public int ID { get; set; }
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
-        public int CategoryId { get; set; }
-        public int? SupplierId { get; set; }
+        public int CategoryID { get; set; }
+        public int? SupplierID { get; set; }
 
         public virtual Category Category { get; set; } = null!;
         public virtual Supplier? Supplier { get; set; }

@@ -10,7 +10,7 @@ namespace StoreFront.DATA.EF.Models
             Products = new HashSet<Product>();
         }
 
-        public int Id { get; set; }
+        public int ID { get; set; }
         public string Name { get; set; } = null!;
         public string Address { get; set; } = null!;
         public string? Address2 { get; set; }

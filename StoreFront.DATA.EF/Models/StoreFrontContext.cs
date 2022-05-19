@@ -133,7 +133,7 @@ namespace StoreFront.DATA.EF.Models
 
             modelBuilder.Entity<Category>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("ID");
+                entity.Property(e => e.ID).HasColumnName("ID");
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
@@ -142,7 +142,7 @@ namespace StoreFront.DATA.EF.Models
 
             modelBuilder.Entity<Order>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("ID");
+                entity.Property(e => e.ID).HasColumnName("ID");
 
                 entity.Property(e => e.Date).HasColumnType("datetime");
 
@@ -170,11 +170,11 @@ namespace StoreFront.DATA.EF.Models
                     .IsUnicode(false)
                     .IsFixedLength();
 
-                entity.Property(e => e.UserId).HasColumnName("UserID");
+                entity.Property(e => e.UserID).HasColumnName("UserID");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.UserId)
+                    .HasForeignKey(d => d.UserID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Orders_Users");
             });
@@ -183,13 +183,13 @@ namespace StoreFront.DATA.EF.Models
             {
                 entity.ToTable("Order_Products");
 
-                entity.Property(e => e.Id)
+                entity.Property(e => e.ID)
                     .ValueGeneratedOnAdd()
                     .HasColumnName("ID");
 
-                entity.Property(e => e.OrderId).HasColumnName("OrderID");
+                entity.Property(e => e.OrderID).HasColumnName("OrderID");
 
-                entity.Property(e => e.ProductId).HasColumnName("ProductID");
+                entity.Property(e => e.ProductID).HasColumnName("ProductID");
 
                 entity.Property(e => e.ProductPrice).HasColumnType("money");
 
@@ -199,22 +199,22 @@ namespace StoreFront.DATA.EF.Models
 
                 entity.HasOne(d => d.IdNavigation)
                     .WithOne(p => p.OrderProduct)
-                    .HasForeignKey<OrderProduct>(d => d.Id)
+                    .HasForeignKey<OrderProduct>(d => d.ID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_OrderProducts_Versions_Products");
 
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.OrderProducts)
-                    .HasForeignKey(d => d.OrderId)
+                    .HasForeignKey(d => d.OrderID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_OrderProducts_Orders1");
             });
 
             modelBuilder.Entity<Product>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("ID");
+                entity.Property(e => e.ID).HasColumnName("ID");
 
-                entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+                entity.Property(e => e.CategoryID).HasColumnName("CategoryID");
 
                 entity.Property(e => e.Description)
                     .HasMaxLength(500)
@@ -222,23 +222,23 @@ namespace StoreFront.DATA.EF.Models
 
                 entity.Property(e => e.Name).HasMaxLength(200);
 
-                entity.Property(e => e.SupplierId).HasColumnName("SupplierID");
+                entity.Property(e => e.SupplierID).HasColumnName("SupplierID");
 
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.Products)
-                    .HasForeignKey(d => d.CategoryId)
+                    .HasForeignKey(d => d.CategoryID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Products_Categories");
 
                 entity.HasOne(d => d.Supplier)
                     .WithMany(p => p.Products)
-                    .HasForeignKey(d => d.SupplierId)
+                    .HasForeignKey(d => d.SupplierID)
                     .HasConstraintName("FK_Products_Suppliers");
             });
 
             modelBuilder.Entity<Supplier>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("ID");
+                entity.Property(e => e.ID).HasColumnName("ID");
 
                 entity.Property(e => e.Address)
                     .HasMaxLength(150)
@@ -276,7 +276,7 @@ namespace StoreFront.DATA.EF.Models
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("ID");
+                entity.Property(e => e.ID).HasColumnName("ID");
 
                 entity.Property(e => e.Email).HasMaxLength(100);
 
@@ -289,7 +289,7 @@ namespace StoreFront.DATA.EF.Models
 
             modelBuilder.Entity<Version>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("ID");
+                entity.Property(e => e.ID).HasColumnName("ID");
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
@@ -300,27 +300,27 @@ namespace StoreFront.DATA.EF.Models
             {
                 entity.ToTable("Versions_Products");
 
-                entity.Property(e => e.Id).HasColumnName("ID");
+                entity.Property(e => e.ID).HasColumnName("ID");
 
                 entity.Property(e => e.Image).HasMaxLength(100);
 
                 entity.Property(e => e.Price).HasColumnType("money");
 
-                entity.Property(e => e.ProductId).HasColumnName("ProductID");
+                entity.Property(e => e.ProductID).HasColumnName("ProductID");
 
                 entity.Property(e => e.Properties).HasMaxLength(1000);
 
-                entity.Property(e => e.VersionId).HasColumnName("VersionID");
+                entity.Property(e => e.VersionID).HasColumnName("VersionID");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.VersionsProducts)
-                    .HasForeignKey(d => d.ProductId)
+                    .HasForeignKey(d => d.ProductID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Versions_Products_Products");
 
                 entity.HasOne(d => d.Version)
                     .WithMany(p => p.VersionsProducts)
-                    .HasForeignKey(d => d.VersionId)
+                    .HasForeignKey(d => d.VersionID)
                     .HasConstraintName("FK_Versions_Products_Versions");
             });
 
