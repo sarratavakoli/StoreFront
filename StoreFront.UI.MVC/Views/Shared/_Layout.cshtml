@@ -78,15 +78,21 @@
                         <!-- Shop Dropdown Menu -->
                         <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                  Shop
+                                  Shop &nabla;
                                 </a>
                                 <ul class="dropdown-menu">
-                                  <li><a class="dropdown-item" href="@Url.Action("Products", "Home")">All Products</a></li>
-                                  <li><a class="dropdown-item" href="./category.html">Cases</a></li>
-                                  <li><a class="dropdown-item" href="./category.html">PCBs</a></li>
-                                  <li><a class="dropdown-item" href="./category.html">Plates</a></li>
-                                  <li><a class="dropdown-item" href="./category.html">Switches</a></li>
-                                  <li><a class="dropdown-item" href="./category.html">Keycaps</a></li>
+                                  <li><a class="dropdown-item" href="@Url.Action("Index", "Products")">Coming Soon</a></li>
+                                </ul>
+                        </li>
+
+                        <!-- Admin Dropdown Menu -->
+                        <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Admin &nabla;
+                                </a>
+                                <ul class="dropdown-menu">
+                                  <li><a class="dropdown-item" href="@Url.Action("Index", "Categories")">Categories</a></li>
+                                  <li><a class="dropdown-item" href="@Url.Action("Index", "Categories")">Coming Soon</a></li>
                                 </ul>
                         </li>
     
@@ -429,7 +435,7 @@
     </nav>
     <!-- / Navbar-->    <!-- / Navbar-->
 
-    @RenderBody();
+    @RenderBody()
 
     <!-- Footer -->
     <footer class="border-top py-5 mt-4  ">
