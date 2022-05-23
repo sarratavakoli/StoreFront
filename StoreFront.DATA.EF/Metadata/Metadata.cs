@@ -10,7 +10,6 @@ namespace StoreFront.DATA.EF
     /// <summary>
     /// Tables that have been skipped:   
     /// --Versions_Products (Joins main product with the variation/version like color/size/etc)
-    /// --Versions (Variations/versions for all items)
     /// --Order_Products (Joins tables so that each item in an order has its own row)     
     /// </summary>
     public class CategoryMetadata
@@ -135,5 +134,13 @@ namespace StoreFront.DATA.EF
         [StringLength(15, ErrorMessage = "Must not exceed 15 characters")]
         [Display(Name = "Phone Number")]
         public string? Phone { get; set; }
+    }
+    public class VersionMetadata
+    {
+        public int ID { get; set; }
+
+        [Required]
+        [StringLength(50, ErrorMessage = "Must not exceed 50 characters")]
+        public string Name { get; set; } = null!;
     }
 }

@@ -1,0 +1,74 @@
+﻿@model IEnumerable<StoreFront.DATA.EF.Models.Product>
+
+@{
+    ViewData["Title"] = "Products";
+}
+<div class="container-fluid">
+
+<div class="col-12 col-md-6 position-relative z-index-20 mb-7 mb-lg-0 aos-init aos-animate" data-aos="fade-right">
+    <p class="text-muted title-small">Check out our</p>
+    <h3 class="display-3 fw-bold mb-5">
+        <span class="text-outline-dark">Products</span><br />
+
+        @* - streetwear &amp; footwear specialists</h3>
+            <p class="lead">We are OldSkool, a leading supplier of global streetwear brands, including names such as <a href="/">Stussy</a>, <a href="/">Carhartt</a>, <a href="/">Gramicci</a>, <a href="/">Afends</a> and many more.</p>
+            <p class="lead">With worldwide shipping and unbeatable prices - now's a great time to pick out something from our range.</p>
+        *@
+
+        <a asp-action="Create" class="btn btn-psuedo" role="button">Create New Products</a>
+        </div>
+        
+
+        <div>
+        <div class="position-relative row my-lg-7 pt-5 pt-lg-0 g-8">
+    <div class="bg-text bottom-0 start-0 end-0 aos-init aos-animate" data-aos="fade-up">
+                    <h2 class="bg-text-title opacity-10"><span class="text-outline-dark">Products</span></h2>
+                </div>
+        <table class="table" id="product-table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Category)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Supplier)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Category.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Supplier.Address)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div>
+        </div>
+        
+
+</div>

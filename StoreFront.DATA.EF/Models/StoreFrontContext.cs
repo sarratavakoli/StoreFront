@@ -36,7 +36,7 @@ namespace StoreFront.DATA.EF.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=.\\sqlexpress;Database=StoreFront;Trusted_Connection=True;MultipleActiveResultSets=true;");
+                optionsBuilder.UseSqlServer("Server=.\\sqlexpress;database=StoreFront;trusted_connection=true;multipleactiveresultsets=true;");
             }
         }
 
@@ -166,7 +166,7 @@ namespace StoreFront.DATA.EF.Models
                     .IsFixedLength();
 
                 entity.Property(e => e.ShipZip)
-                    .HasMaxLength(5)
+                    .HasMaxLength(10)
                     .IsUnicode(false)
                     .IsFixedLength();
 
@@ -253,7 +253,7 @@ namespace StoreFront.DATA.EF.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.Country)
-                    .HasMaxLength(100)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Name)
@@ -270,7 +270,7 @@ namespace StoreFront.DATA.EF.Models
                     .IsFixedLength();
 
                 entity.Property(e => e.Zip)
-                    .HasMaxLength(100)
+                    .HasMaxLength(10)
                     .IsUnicode(false);
             });
 

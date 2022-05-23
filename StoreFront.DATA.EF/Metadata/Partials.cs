@@ -31,4 +31,9 @@ namespace StoreFront.DATA.EF
     [ModelMetadataType(typeof(UserMetadata))]
     public partial class UserDetail { }
     #endregion
+
+    #region Version
+    [ModelMetadataType(typeof(VersionMetadata))]
+    public partial class Version { }
+    #endregion
 }
