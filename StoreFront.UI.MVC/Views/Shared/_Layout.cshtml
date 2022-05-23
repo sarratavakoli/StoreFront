@@ -1,4 +1,11 @@
-﻿<!doctype html>
+﻿@*
+    Added the two lines below to lock down certain nav items.
+    These are required to check the Authentication of a user (aka whether or not they are logged in)
+*@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> signInManager
+
+<!doctype html>
 <html lang="en">
 
 <!-- Head -->
@@ -29,6 +36,9 @@
 
   <!-- Main CSS -->
   <link rel="stylesheet" href="~/assets/css/theme.bundle.css" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="~/assets/css/custom.css" />
 
   <!-- Fix for custom scrollbar if JS is disabled-->
   <noscript>
@@ -75,28 +85,50 @@
                         </li>
                         <!-- /Mobile Nav Toggler-->
 
-                        <!-- Shop Dropdown Menu -->
+                        <!-- Shop Link -->
+                        <li class="ms-1 d-none d-lg-inline-block">
+                            <a class="nav-link text-body" href="@Url.Action("Index", "Home")">
+                                Home
+                            </a>
+                        </li>
+
+                        <!-- Shop Link -->
+                        <li class="ms-1 d-none d-lg-inline-block">
+                            <a class="nav-link text-body" href="@Url.Action("Index", "Products")">
+                                Shop
+                            </a>
+                        </li>
+
+                        @*<!-- Shop Dropdown Menu -->
                         <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                   Shop &nabla;
                                 </a>
                                 <ul class="dropdown-menu">
-                                  <li><a class="dropdown-item" href="@Url.Action("Index", "Products")">Coming Soon</a></li>
+                                  <li><a class="dropdown-item" href="@Url.Action("Index", "Products")">Products</a></li>
                                 </ul>
-                        </li>
+                        </li>*@
 
                         <!-- Admin Dropdown Menu -->
-                        <li class="nav-item dropdown">
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                  Admin &nabla;
+                                    Admin &nabla;
                                 </a>
                                 <ul class="dropdown-menu">
-                                  <li><a class="dropdown-item" href="@Url.Action("Index", "Categories")">Categories</a></li>
-                                  <li><a class="dropdown-item" href="@Url.Action("Index", "Categories")">Coming Soon</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "Categories")">Categories</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "Suppliers")">Suppliers</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "Orders")">Orders</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "Versions")">Product Versions</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "OrderProducts")">Ordered Products</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("ListUsers", "Administration")">Users</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("ListRoles", "Administration")">Roles</a></li>
                                 </ul>
-                        </li>
-    
-                        <!-- Navbar Search-->
+                            </li>
+                        }
+
+                        @*<!-- Navbar Search-->
                         <li class="d-none d-sm-block">
                             <span class="nav-link text-body search-trigger cursor-pointer">Search</span>
     
@@ -116,21 +148,34 @@
                             <!-- / Search navbar overlay-->
     
                         </li>
-                        <!-- /Navbar Search-->
+                        <!-- /Navbar Search-->*@
     
-                        <!-- Navbar Login-->
+                        @*<!-- Navbar Login-->
                         <li class="ms-1 d-none d-lg-inline-block">
                             <a class="nav-link text-body" href="@Url.Action("Login", "Home")">
                                 Account
                             </a>
                         </li>
-                        <!-- /Navbar Login-->
-    
+                        <!-- /Navbar Login-->*@
+
+                        @*<!-- Account Dropdown Menu -->
+                        <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Account &nabla;
+                                </a>
+                                <ul class="dropdown-menu">
+                                  <li><a class="dropdown-item" href="@Url.Action("Index", "Categories")">Register</a></li>
+                                  <li><a class="dropdown-item" href="@Url.Action("Index", "Suppliers")">Login</a></li>                                  
+                                </ul>
+                        </li>*@
+
+                        <partial name="_LoginPartial" />
+
                         <!-- Navbar Cart Icon-->
                         <li class="ms-1 d-inline-block position-relative dropdown-cart">
                             <button class="nav-link me-0 disable-child-pointer border-0 p-0 bg-transparent text-body"
                                 type="button">
-                                Bag <!--(2)-->
+                                Cart <!--(2)-->
                             </button>
                             <div class="cart-dropdown dropdown-menu">
                             
@@ -203,6 +248,10 @@
     
                         </li>
                         <!-- /Navbar Cart Icon-->
+
+
+    
+                        
     
                     </ul>
                     <!-- Navbar Icons-->                

@@ -1,14 +1,14 @@
-﻿@model StoreFront.DATA.EF.Models.Category
+﻿@model StoreFront.DATA.EF.Models.Version
 
 @{
-    ViewData["Title"] = "Delete Category";
+    ViewData["Title"] = "Delete";
 }
 
-<h1>Delete Category</h1>
+<h1>Delete</h1>
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>Category</h4>
+    <h4>Version</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -22,6 +22,6 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="ID" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to Categories</a>
+        <a asp-action="Index">Back to List</a>
     </form>
 </div>
