@@ -47,7 +47,7 @@ namespace StoreFront.UI.MVC.Controllers
         // GET: Orders/Create
         public IActionResult Create()
         {
-            ViewData["UserID"] = new SelectList(_context.Users, "ID", "LastName");
+            ViewData["UserID"] = new SelectList(_context.Users, "ID", "FullName");
             return View();
         }
 

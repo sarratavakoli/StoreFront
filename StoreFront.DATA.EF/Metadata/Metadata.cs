@@ -6,12 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace StoreFront.DATA.EF
-{
-    /// <summary>
-    /// Tables that have been skipped:   
-    /// --Versions_Products (Joins main product with the variation/version like color/size/etc)
-    /// --Order_Products (Joins tables so that each item in an order has its own row)     
-    /// </summary>
+{    
     public class CategoryMetadata
     {
         public int ID { get; set; }
@@ -64,11 +59,58 @@ namespace StoreFront.DATA.EF
 
         [StringLength(500, ErrorMessage = "Must not exceed 500 characters")]
         public string? Description { get; set; }
+        
+        [Display(Name = "Active")]
+        public bool? IsActive { get; set; }
 
         //Foreign Key - no metadata required
         public int CategoryID { get; set; }
         //Foreign Key - no metadata required
         public int? SupplierID { get; set; }
+    }
+    public class VersionsProductsMetadata
+    {
+        public int ID { get; set; }
+        public int ProductID { get; set; }
+        public int? VersionID { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:c}")]
+        [Display(Name = "Price")]
+        [Range(0, (double)decimal.MaxValue)]
+        public decimal Price { get; set; }
+        public string? Properties { get; set; }
+        public string? Image { get; set; }
+        public short? UnitsInStock { get; set; }
+        public short? UnitsOnOrder { get; set; }
+        public bool? IsActive { get; set; }
+    }
+    public class VersionMetadata
+    {
+        public int ID { get; set; }
+
+        [Required]
+        [StringLength(50, ErrorMessage = "Must not exceed 50 characters")]
+        public string Name { get; set; } = null!;
+    }
+    public class OrderProductMetadata
+    {
+        public int ID { get; set; }
+        public int OrderID { get; set; }
+        public int ProductID { get; set; }
+
+        [Required]
+        [Display(Name = "Quantity")]
+        [Range(0, short.MaxValue)]
+        public short UnitQuantity { get; set; }
+
+        [Range(0, short.MaxValue)]
+        [Display(Name = "Units")]
+        public string? UnitType { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:c}")]
+        [Display(Name = "Price")]
+        [Range(0, (double)decimal.MaxValue)]
+        public decimal ProductPrice { get; set; }
     }
     public class OrderMetadata
     {
@@ -134,13 +176,6 @@ namespace StoreFront.DATA.EF
         [StringLength(15, ErrorMessage = "Must not exceed 15 characters")]
         [Display(Name = "Phone Number")]
         public string? Phone { get; set; }
-    }
-    public class VersionMetadata
-    {
-        public int ID { get; set; }
-
-        [Required]
-        [StringLength(50, ErrorMessage = "Must not exceed 50 characters")]
-        public string Name { get; set; } = null!;
-    }
+    }    
+    
 }
