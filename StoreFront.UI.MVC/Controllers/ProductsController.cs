@@ -23,7 +23,7 @@ namespace StoreFront.UI.MVC.Controllers
         {
             var storeFrontContext = _context.Products.Include(p => p.Category).Include(p => p.Supplier);
             return View(await storeFrontContext.ToListAsync());
-        }        
+        }
 
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -36,7 +36,7 @@ namespace StoreFront.UI.MVC.Controllers
             var product = await _context.Products
                 .Include(p => p.Category)
                 .Include(p => p.Supplier)
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
                 return NotFound();
@@ -48,8 +48,8 @@ namespace StoreFront.UI.MVC.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["CategoryID"] = new SelectList(_context.Categories, "ID", "Name");
-            ViewData["SupplierID"] = new SelectList(_context.Suppliers, "ID", "Name");
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
+            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Address");
             return View();
         }
 
@@ -58,7 +58,7 @@ namespace StoreFront.UI.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,Description,CategoryID,SupplierID")] Product product)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,CategoryId,SupplierId,IsActive,Price,Image")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -66,8 +66,8 @@ namespace StoreFront.UI.MVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryID"] = new SelectList(_context.Categories, "ID", "Name", product.CategoryID);
-            ViewData["SupplierID"] = new SelectList(_context.Suppliers, "ID", "Name", product.SupplierID);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
+            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Address", product.SupplierId);
             return View(product);
         }
 
@@ -84,8 +84,8 @@ namespace StoreFront.UI.MVC.Controllers
             {
                 return NotFound();
             }
-            ViewData["CategoryID"] = new SelectList(_context.Categories, "ID", "Name", product.CategoryID);
-            ViewData["SupplierID"] = new SelectList(_context.Suppliers, "ID", "Name", product.SupplierID);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
+            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Address", product.SupplierId);
             return View(product);
         }
 
@@ -94,9 +94,9 @@ namespace StoreFront.UI.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Description,CategoryID,SupplierID")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,CategoryId,SupplierId,IsActive,Price,Image")] Product product)
         {
-            if (id != product.ID)
+            if (id != product.Id)
             {
                 return NotFound();
             }
@@ -110,7 +110,7 @@ namespace StoreFront.UI.MVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.ID))
+                    if (!ProductExists(product.Id))
                     {
                         return NotFound();
                     }
@@ -121,8 +121,8 @@ namespace StoreFront.UI.MVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryID"] = new SelectList(_context.Categories, "ID", "Name", product.CategoryID);
-            ViewData["SupplierID"] = new SelectList(_context.Suppliers, "ID", "Name", product.SupplierID);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
+            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Address", product.SupplierId);
             return View(product);
         }
 
@@ -137,7 +137,7 @@ namespace StoreFront.UI.MVC.Controllers
             var product = await _context.Products
                 .Include(p => p.Category)
                 .Include(p => p.Supplier)
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
                 return NotFound();
@@ -167,7 +167,7 @@ namespace StoreFront.UI.MVC.Controllers
 
         private bool ProductExists(int id)
         {
-          return (_context.Products?.Any(e => e.ID == id)).GetValueOrDefault();
+          return (_context.Products?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

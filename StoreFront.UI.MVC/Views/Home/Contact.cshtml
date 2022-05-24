@@ -3,3 +3,57 @@
 @{
     ViewData["Title"] = "Contact";
 }
+
+@*
+    If something went wrong when sending the email, display the ErrorMessage to the user.
+*@
+@*
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="row">
+        <p style="color: red; font-style:italic;">
+            @Html.Raw(ViewBag.ErrorMessage);
+        </p>
+    </div>
+}
+
+
+
+
+<div class="col-lg-6">
+    <form asp-action="Contact" class="php-email-form">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <input asp-for="Name" class="form-control" placeholder="Name" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3">
+            <input asp-for="Email" class="form-control" placeholder="Email" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3">
+            <input asp-for="Subject" class="form-control" placeholder="Subject" />
+            <span asp-validation-for="Subject" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3">
+            <textarea asp-for="Message" class="form-control" placeholder="Message"></textarea>
+            <span asp-validation-for="Message" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-4 text-center">
+            <input type="submit" value="Send" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+
+
+
+
+<!-- May Need -->
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+<!-- jQuery Library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+}*@

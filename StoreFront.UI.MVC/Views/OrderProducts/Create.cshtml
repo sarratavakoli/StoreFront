@@ -1,25 +1,25 @@
 ﻿@model StoreFront.DATA.EF.Models.OrderProduct
 
 @{
-    ViewData["Title"] = "Create Ordered Product";
+    ViewData["Title"] = "Create";
 }
 
 <h1>Create</h1>
 
-<h4>Ordered Product</h4>
+<h4>OrderProduct</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="OrderID" class="control-label"></label>
-                <select asp-for="OrderID" class ="form-control" asp-items="ViewBag.OrderID"></select>
+                <label asp-for="VersionProductId" class="control-label"></label>
+                <input asp-for="VersionProductId" class="form-control" />
+                <span asp-validation-for="VersionProductId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ProductID" class="control-label"></label>
-                <input asp-for="ProductID" class="form-control" />
-                <span asp-validation-for="ProductID" class="text-danger"></span>
+                <label asp-for="OrderId" class="control-label"></label>
+                <select asp-for="OrderId" class ="form-control" asp-items="ViewBag.OrderId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="UnitQuantity" class="control-label"></label>
@@ -44,7 +44,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to Ordered Products</a>
+    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

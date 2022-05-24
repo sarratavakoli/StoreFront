@@ -35,7 +35,7 @@ namespace StoreFront.UI.MVC.Controllers
             }
 
             var supplier = await _context.Suppliers
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (supplier == null)
             {
                 return NotFound();
@@ -55,7 +55,7 @@ namespace StoreFront.UI.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,Address,Address2,City,State,Zip,Country,Phone")] Supplier supplier)
+        public async Task<IActionResult> Create([Bind("Id,Name,Address,Address2,City,State,Zip,Country,Phone")] Supplier supplier)
         {
             if (ModelState.IsValid)
             {
@@ -87,9 +87,9 @@ namespace StoreFront.UI.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Address,Address2,City,State,Zip,Country,Phone")] Supplier supplier)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Address,Address2,City,State,Zip,Country,Phone")] Supplier supplier)
         {
-            if (id != supplier.ID)
+            if (id != supplier.Id)
             {
                 return NotFound();
             }
@@ -103,7 +103,7 @@ namespace StoreFront.UI.MVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SupplierExists(supplier.ID))
+                    if (!SupplierExists(supplier.Id))
                     {
                         return NotFound();
                     }
@@ -126,7 +126,7 @@ namespace StoreFront.UI.MVC.Controllers
             }
 
             var supplier = await _context.Suppliers
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (supplier == null)
             {
                 return NotFound();
@@ -156,7 +156,7 @@ namespace StoreFront.UI.MVC.Controllers
 
         private bool SupplierExists(int id)
         {
-          return (_context.Suppliers?.Any(e => e.ID == id)).GetValueOrDefault();
+          return (_context.Suppliers?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

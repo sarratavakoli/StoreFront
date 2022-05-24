@@ -36,7 +36,7 @@ namespace StoreFront.UI.MVC.Controllers
             var orderProduct = await _context.OrderProducts
                 .Include(o => o.IdNavigation)
                 .Include(o => o.Order)
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (orderProduct == null)
             {
                 return NotFound();
@@ -48,8 +48,8 @@ namespace StoreFront.UI.MVC.Controllers
         // GET: OrderProducts/Create
         public IActionResult Create()
         {
-            ViewData["ID"] = new SelectList(_context.VersionsProducts, "ID", "ID");
-            ViewData["OrderID"] = new SelectList(_context.Orders, "ID", "ShipAddress");
+            ViewData["Id"] = new SelectList(_context.VersionsProducts, "Id", "Id");
+            ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "ShipAddress");
             return View();
         }
 
@@ -58,7 +58,7 @@ namespace StoreFront.UI.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,OrderID,ProductID,UnitQuantity,UnitType,ProductPrice")] OrderProduct orderProduct)
+        public async Task<IActionResult> Create([Bind("Id,VersionProductId,OrderId,UnitQuantity,UnitType,ProductPrice")] OrderProduct orderProduct)
         {
             if (ModelState.IsValid)
             {
@@ -66,8 +66,8 @@ namespace StoreFront.UI.MVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ID"] = new SelectList(_context.VersionsProducts, "ID", "ID", orderProduct.ID);
-            ViewData["OrderID"] = new SelectList(_context.Orders, "ID", "ShipAddress", orderProduct.OrderID);
+            ViewData["Id"] = new SelectList(_context.VersionsProducts, "Id", "Id", orderProduct.Id);
+            ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "ShipAddress", orderProduct.OrderId);
             return View(orderProduct);
         }
 
@@ -84,8 +84,8 @@ namespace StoreFront.UI.MVC.Controllers
             {
                 return NotFound();
             }
-            ViewData["ID"] = new SelectList(_context.VersionsProducts, "ID", "ID", orderProduct.ID);
-            ViewData["OrderID"] = new SelectList(_context.Orders, "ID", "ShipAddress", orderProduct.OrderID);
+            ViewData["Id"] = new SelectList(_context.VersionsProducts, "Id", "Id", orderProduct.Id);
+            ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "ShipAddress", orderProduct.OrderId);
             return View(orderProduct);
         }
 
@@ -94,9 +94,9 @@ namespace StoreFront.UI.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,OrderID,ProductID,UnitQuantity,UnitType,ProductPrice")] OrderProduct orderProduct)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,VersionProductId,OrderId,UnitQuantity,UnitType,ProductPrice")] OrderProduct orderProduct)
         {
-            if (id != orderProduct.ID)
+            if (id != orderProduct.Id)
             {
                 return NotFound();
             }
@@ -110,7 +110,7 @@ namespace StoreFront.UI.MVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OrderProductExists(orderProduct.ID))
+                    if (!OrderProductExists(orderProduct.Id))
                     {
                         return NotFound();
                     }
@@ -121,8 +121,8 @@ namespace StoreFront.UI.MVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ID"] = new SelectList(_context.VersionsProducts, "ID", "ID", orderProduct.ID);
-            ViewData["OrderID"] = new SelectList(_context.Orders, "ID", "ShipAddress", orderProduct.OrderID);
+            ViewData["Id"] = new SelectList(_context.VersionsProducts, "Id", "Id", orderProduct.Id);
+            ViewData["OrderId"] = new SelectList(_context.Orders, "Id", "ShipAddress", orderProduct.OrderId);
             return View(orderProduct);
         }
 
@@ -137,7 +137,7 @@ namespace StoreFront.UI.MVC.Controllers
             var orderProduct = await _context.OrderProducts
                 .Include(o => o.IdNavigation)
                 .Include(o => o.Order)
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (orderProduct == null)
             {
                 return NotFound();
@@ -167,7 +167,7 @@ namespace StoreFront.UI.MVC.Controllers
 
         private bool OrderProductExists(int id)
         {
-          return (_context.OrderProducts?.Any(e => e.ID == id)).GetValueOrDefault();
+          return (_context.OrderProducts?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
