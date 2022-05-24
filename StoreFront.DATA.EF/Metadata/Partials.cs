@@ -22,6 +22,11 @@ namespace StoreFront.DATA.EF
     public partial class Product { }
     #endregion
 
+    #region OrderProduct
+    [ModelMetadataType(typeof(OrderProductMetadata))]
+    public partial class OrderProduct { }
+    #endregion
+
     #region Order
     [ModelMetadataType(typeof(OrderMetadata))]
     public partial class Order { }

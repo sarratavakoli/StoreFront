@@ -15,7 +15,7 @@
             <p class="lead">With worldwide shipping and unbeatable prices - now's a great time to pick out something from our range.</p>
         *@
 
-        <a asp-action="Create" class="btn btn-psuedo" role="button">Create New Products</a>
+        <a asp-action="Create" class="btn btn-psuedo" role="button">Add New Product</a>
         </div>
         
 
@@ -56,12 +56,13 @@
                             @Html.DisplayFor(modelItem => item.Category.Name)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Supplier.Address)
+                            @Html.DisplayFor(modelItem => item.Supplier.Name)
                         </td>
+                        
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
                             <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                            <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>   
                         </td>
                     </tr>
                 }
