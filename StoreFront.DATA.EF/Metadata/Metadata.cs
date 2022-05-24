@@ -9,7 +9,7 @@ namespace StoreFront.DATA.EF
 {    
     public class CategoryMetadata
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
                 
         [Required]
         [StringLength(50, ErrorMessage = "Must not exceed 50 characters")]
@@ -17,7 +17,7 @@ namespace StoreFront.DATA.EF
     }
     public class SupplierMetadata
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "Must not exceed 100 characters")]
@@ -51,7 +51,7 @@ namespace StoreFront.DATA.EF
     }
     public class ProductMetadata
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [StringLength(200, ErrorMessage = "Must not exceed 200 characters")]
@@ -64,15 +64,15 @@ namespace StoreFront.DATA.EF
         public bool? IsActive { get; set; }
 
         //Foreign Key - no metadata required
-        public int CategoryID { get; set; }
+        public int CategoryId { get; set; }
         //Foreign Key - no metadata required
-        public int? SupplierID { get; set; }
+        public int? SupplierId { get; set; }
     }
     public class VersionsProductsMetadata
     {
-        public int ID { get; set; }
-        public int ProductID { get; set; }
-        public int? VersionID { get; set; }
+        public int Id { get; set; }
+        public int ProductId { get; set; }
+        //public int? VersionId { get; set; }
 
         [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:c}")]
         [Display(Name = "Price")]
@@ -83,20 +83,14 @@ namespace StoreFront.DATA.EF
         public short? UnitsInStock { get; set; }
         public short? UnitsOnOrder { get; set; }
         public bool? IsActive { get; set; }
+        public string? Version { get; set; }
     }
-    public class VersionMetadata
-    {
-        public int ID { get; set; }
-
-        [Required]
-        [StringLength(50, ErrorMessage = "Must not exceed 50 characters")]
-        public string Name { get; set; } = null!;
-    }
+    
     public class OrderProductMetadata
     {
-        public int ID { get; set; }
-        public int OrderID { get; set; }
-        public int ProductID { get; set; }
+        public int Id { get; set; }
+        public int OrderId { get; set; }
+        public int VersionProductId { get; set; }
 
         [Required]
         [Display(Name = "Quantity")]
@@ -114,10 +108,10 @@ namespace StoreFront.DATA.EF
     }
     public class OrderMetadata
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         //Foreign Key - no metadata required
-        public int UserID { get; set; }
+        public int UserId { get; set; }
 
         [Required]
         [DataType(DataType.DateTime)]
@@ -155,7 +149,7 @@ namespace StoreFront.DATA.EF
     }
     public class UserMetadata
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         [StringLength(50, ErrorMessage = "Must not exceed 50 characters")]
         [Display(Name = "First Name")]

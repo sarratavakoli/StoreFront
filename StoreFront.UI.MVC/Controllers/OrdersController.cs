@@ -35,7 +35,7 @@ namespace StoreFront.UI.MVC.Controllers
 
             var order = await _context.Orders
                 .Include(o => o.User)
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {
                 return NotFound();
@@ -47,7 +47,7 @@ namespace StoreFront.UI.MVC.Controllers
         // GET: Orders/Create
         public IActionResult Create()
         {
-            ViewData["UserID"] = new SelectList(_context.Users, "ID", "FullName");
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "FullName");
             return View();
         }
 
@@ -56,7 +56,7 @@ namespace StoreFront.UI.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,UserID,Date,ShipName,ShipAddress,ShipAddress2,ShipCity,ShipState,ShipZip")] Order order)
+        public async Task<IActionResult> Create([Bind("Id,UserId,Date,ShipName,ShipAddress,ShipAddress2,ShipCity,ShipState,ShipZip")] Order order)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +64,7 @@ namespace StoreFront.UI.MVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserID"] = new SelectList(_context.Users, "ID", "LastName", order.UserID);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "LastName", order.UserId);
             return View(order);
         }
 
@@ -81,7 +81,7 @@ namespace StoreFront.UI.MVC.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserID"] = new SelectList(_context.Users, "ID", "LastName", order.UserID);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "LastName", order.UserId);
             return View(order);
         }
 
@@ -90,9 +90,9 @@ namespace StoreFront.UI.MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,UserID,Date,ShipName,ShipAddress,ShipAddress2,ShipCity,ShipState,ShipZip")] Order order)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,Date,ShipName,ShipAddress,ShipAddress2,ShipCity,ShipState,ShipZip")] Order order)
         {
-            if (id != order.ID)
+            if (id != order.Id)
             {
                 return NotFound();
             }
@@ -106,7 +106,7 @@ namespace StoreFront.UI.MVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OrderExists(order.ID))
+                    if (!OrderExists(order.Id))
                     {
                         return NotFound();
                     }
@@ -117,7 +117,7 @@ namespace StoreFront.UI.MVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserID"] = new SelectList(_context.Users, "ID", "LastName", order.UserID);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "LastName", order.UserId);
             return View(order);
         }
 
@@ -131,7 +131,7 @@ namespace StoreFront.UI.MVC.Controllers
 
             var order = await _context.Orders
                 .Include(o => o.User)
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {
                 return NotFound();
@@ -161,7 +161,7 @@ namespace StoreFront.UI.MVC.Controllers
 
         private bool OrderExists(int id)
         {
-          return (_context.Orders?.Any(e => e.ID == id)).GetValueOrDefault();
+          return (_context.Orders?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
