@@ -274,7 +274,7 @@ namespace StoreFront.DATA.EF.Models
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.Email).HasMaxLength(100);
+                //entity.Property(e => e.Email).HasMaxLength(100);
 
                 entity.Property(e => e.FirstName).HasMaxLength(50);
 

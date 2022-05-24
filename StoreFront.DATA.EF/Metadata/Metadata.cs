@@ -111,7 +111,7 @@ namespace StoreFront.DATA.EF
         public int Id { get; set; }
 
         //Foreign Key - no metadata required
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         [Required]
         [DataType(DataType.DateTime)]
@@ -149,7 +149,7 @@ namespace StoreFront.DATA.EF
     }
     public class UserMetadata
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [StringLength(50, ErrorMessage = "Must not exceed 50 characters")]
         [Display(Name = "First Name")]
@@ -159,12 +159,6 @@ namespace StoreFront.DATA.EF
         [StringLength(50, ErrorMessage = "Must not exceed 50 characters")]
         [Display(Name = "Last Name")]
         public string LastName { get; set; } = null!;
-
-        [Required]
-        [DataType(DataType.EmailAddress)]
-        [StringLength(100, ErrorMessage = "Must not exceed 100 characters")]
-        [Display(Name = "Email Address")]
-        public string? Email { get; set; }
 
         [DataType(DataType.PhoneNumber)]
         [StringLength(15, ErrorMessage = "Must not exceed 15 characters")]

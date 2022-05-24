@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using StoreFront.DATA.EF.Models;
 
 namespace StoreFront.UI.MVC.Areas.Identity.Pages.Account
 {
@@ -97,6 +98,30 @@ namespace StoreFront.UI.MVC.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            //added properties below from Users class to include on the view
+            [StringLength(50, ErrorMessage = "Must not exceed 50 characters")]
+            [Display(Name = "First Name")]
+            public string? FirstName { get; set; }
+
+            [Required]
+            [StringLength(50, ErrorMessage = "Must not exceed 50 characters")]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; } = null!;
+
+            //commented out because already exists in asp table
+            //[Required]
+            //[DataType(DataType.EmailAddress)]
+            //[StringLength(100, ErrorMessage = "Must not exceed 100 characters")]
+            //[Display(Name = "Email Address")]
+            //public string? Email { get; set; }
+
+            [DataType(DataType.PhoneNumber)]
+            [StringLength(15, ErrorMessage = "Must not exceed 15 characters")]
+            [Display(Name = "Phone Number")]
+            public string? Phone { get; set; }
+
+
         }
 
 
@@ -123,6 +148,24 @@ namespace StoreFront.UI.MVC.Areas.Identity.Pages.Account
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
+
+                    #region Custom User Registration - Creating a new UserDetails record in the DB
+                    //this context object is what we use to save the new user record to the db
+                    //this is the same type of object that we use in our scaffolded controllers
+                    StoreFrontContext _context = new StoreFrontContext();
+                    User users = new User()
+                    {
+                        Id = userId,
+                        FirstName = Input.FirstName,
+                        LastName = Input.LastName,
+                        Phone = Input.Phone
+                    };
+
+                    _context.Users.Add(users);//queue the record to be saved to the db
+                    _context.SaveChanges();//save to db
+                    #endregion
+
+
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
