@@ -41,8 +41,19 @@ namespace StoreFront.UI.MVC.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.Cart = HttpContext.Session.GetString("cart");
-            return View();
+            var sessionCart = HttpContext.Session.GetString("cart");
+            Dictionary<int, CartItemViewModel> shoppingCart = null;
+            if (sessionCart == null || sessionCart.Count() == 0)
+            {
+                shoppingCart = new Dictionary<int, CartItemViewModel>();
+                ViewBag.Message = "There are no items in your cart.";
+            }
+            else
+            {
+                ViewBag.Message = null;
+                shoppingCart = JsonConvert.DeserializeObject<Dictionary<int, CartItemViewModel>>(sessionCart);
+            }
+            return View(shoppingCart);
         }
 
         //added add to cart action
