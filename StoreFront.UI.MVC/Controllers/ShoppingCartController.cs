@@ -122,5 +122,31 @@ namespace StoreFront.UI.MVC.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public IActionResult RemoveFromCart(int id)
+        {
+            //retrieve the cart from session
+            var sessionCart = HttpContext.Session.GetString("cart");
+
+            //convert JSON cart to C#
+            Dictionary<int, CartItemViewModel> shoppingCart = JsonConvert.DeserializeObject<Dictionary<int, CartItemViewModel>>(sessionCart);
+
+            //remove cart item
+            shoppingCart.Remove(id);
+
+            //if there are no remaining items in the cart, remove from session
+            if (shoppingCart.Count == 0)
+            {
+                HttpContext.Session.Remove("cart");
+            }
+            //otherwise, update the session variable with our local cart contents
+            else
+            {
+                string jsonCart = JsonConvert.SerializeObject(shoppingCart);
+                HttpContext.Session.SetString("cart", jsonCart);
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }

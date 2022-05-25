@@ -56,26 +56,37 @@
                                     {
                                         @foreach (var item in Model)
                                         {
-                                                    <!-- Cart Item-->
-                                                    <div class="row mx-0 py-4 g-0 border-bottom">
-                                                        <div class="col-2 position-relative">
-                                                            <picture class="d-block border">
-                                                                <!-- placeholder image -->
-                                                        <img class="img-fluid" src="./assets/images/products/product-cart-1.jpg" alt="">
-                                                            </picture>
-                                                        </div>
-                                                        <div class="col-9 offset-1">
-                                                            <div>
-                                                                <h6 class="justify-content-between d-flex align-items-start mb-2">
-                                                            @item.Value.Product.Name
-                                                                    <i class="ri-close-line ms-3"></i>
-                                                                </h6>
-                                                                <span class="d-block text-muted fw-bolder text-uppercase fs-9">Version: [AddVersion] / Qty: @item.Value.Qty</span>
-                                                            </div>
-                                                            <p class="fw-bolder text-end text-muted m-0">@item.Value.Product.Price</p>
-                                                        </div>
+                                            @* add ability to remove items *@
+                                                <!-- Cart Item-->
+                                                <div class="row mx-0 py-4 g-0 border-bottom">
+                                                    <div class="col-2 position-relative">
+                                                        <picture class="d-block border">
+                                                            <!-- placeholder image -->
+                                                    <img class="img-fluid" src="./assets/images/products/product-cart-1.jpg" alt="">
+                                                        </picture>
                                                     </div>
-                                                    <!-- / Cart Item-->
+                                                    <div class="col-9 offset-1">
+                                                        <div>
+                                                            <h6 class="justify-content-between d-flex align-items-start mb-2">
+                                                        @item.Value.Product.Name                                                        
+                                                        <a asp-controller="ShoppingCart" asp-action="RemoveFromCart" asp-route-id="@item.Key" >
+                                                                <i class="ri-close-line ms-3"></i>
+                                                        </a>
+
+                                                            </h6>
+                                                            <span class="d-block text-muted fw-bolder text-uppercase fs-9">Version: Black / Qty: @item.Value.Qty</span>
+                                                            <span class="d-block text-muted fx-bolder text-uppercase fs-9">@item.Value.Product.Price</span>
+                                                        </div>
+                                                        <p class="fw-bolder text-end text-muted m-0">                                                            
+                                                            @{
+                                                                decimal? lineTotal = item.Value.Product.Price * item.Value.Qty;
+                                                                cartTotal += lineTotal;
+                                                            }
+                                                            @lineTotal
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <!-- / Cart Item-->
                                         }
                                     }
 
@@ -93,7 +104,7 @@
                                 <p class="m-0 fw-bold fs-5">Grand Total</p>
                                 @*<span class="text-muted small">Inc $45.89 sales tax</span>*@
                             </div>
-                            <p class="m-0 fs-5 fw-bold">$422.99</p>
+                            <p class="m-0 fs-5 fw-bold">@cartTotal</p>
                         </div>
                     </div>
                     @*<div class="py-4">
@@ -103,11 +114,13 @@
                         </div>
                         </div>*@
                     <a href="./checkout.html" class="btn btn-dark w-100 text-center" role="button">Proceed to checkout</a>
+                    
                 </div>
-                            <!-- added -->
-                            <li><a asp-action="Index" asp-controller="Products" class="btn btn-info">Back to Shopping</a></li>
-                            <!-- /added -->
+                            
+                    
             </div>
+            @*added*@                    
+                        <a asp-action="Index" asp-controller="Products">Back to Shopping</a>
         </div>
     </div>
     <!-- /Page Content -->
