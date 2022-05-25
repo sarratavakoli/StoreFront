@@ -19,7 +19,7 @@ namespace StoreFront.DATA.EF.Models
         public decimal Price { get; set; }
         public string? Image { get; set; }
 
-        public virtual Category Category { get; set; } = null!;
+        public virtual Category? Category { get; set; } 
         public virtual Supplier? Supplier { get; set; }
         public virtual ICollection<VersionsProduct> VersionsProducts { get; set; }
     }
