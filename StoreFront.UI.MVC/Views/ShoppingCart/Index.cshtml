@@ -56,26 +56,49 @@
                                     {
                                         @foreach (var item in Model)
                                         {
-                                                    <!-- Cart Item-->
-                                                    <div class="row mx-0 py-4 g-0 border-bottom">
-                                                        <div class="col-2 position-relative">
-                                                            <picture class="d-block border">
-                                                                <!-- placeholder image -->
-                                                        <img class="img-fluid" src="./assets/images/products/product-cart-1.jpg" alt="">
-                                                            </picture>
-                                                        </div>
-                                                        <div class="col-9 offset-1">
-                                                            <div>
-                                                                <h6 class="justify-content-between d-flex align-items-start mb-2">
-                                                            @item.Value.Product.Name
-                                                                    <i class="ri-close-line ms-3"></i>
-                                                                </h6>
-                                                                <span class="d-block text-muted fw-bolder text-uppercase fs-9">Version: [AddVersion] / Qty: @item.Value.Qty</span>
-                                                            </div>
-                                                            <p class="fw-bolder text-end text-muted m-0">@item.Value.Product.Price</p>
-                                                        </div>
+                                            @* add ability to remove items *@
+                                                <!-- Cart Item-->
+                                                <div class="row mx-0 py-4 g-0 border-bottom">
+                                                    <div class="col-2 position-relative">
+                                                        <picture class="d-block border">
+                                                            <!-- placeholder image -->
+                                                    <img class="img-fluid" src="./assets/images/products/product-cart-1.jpg" alt="">
+                                                        </picture>
                                                     </div>
-                                                    <!-- / Cart Item-->
+                                                    <div class="col-9 offset-1">
+                                                        <div>
+                                                            <h6 class="justify-content-between d-flex align-items-start mb-2">
+                                                        @item.Value.Product.Name                                                        
+                                                        <a asp-controller="ShoppingCart" asp-action="RemoveFromCart" asp-route-id="@item.Key" style="text-decoration: none;" >
+                                                                <i class="ri-close-line ms-3"></i>
+                                                        </a>
+
+                                                            </h6>
+                                                            <span class="d-block text-muted fw-bolder text-uppercase fs-9">Version: Black / Qty: @item.Value.Qty</span>
+                                                            <br/>
+                                                            
+                                                            <form asp-action="UpdateCart">
+                                                                <input type="hidden" name="productId" value="@item.Key" />
+                                                                <input type="text" name="qty" value="@item.Value.Qty" style="max-width: 100px">
+                                                                <input type="submit" value="Update Quantity" class="d-inline text-muted fx-bolder text-uppercase fs-9">
+                                                            </form>
+
+                                                        </div>
+                                                        <p class="fw-bolder text-end text-muted m-0">                                                            
+                                                            @{
+                                                                decimal? lineTotal = item.Value.Product.Price * item.Value.Qty;
+                                                                cartTotal += lineTotal;
+                                                            }
+                                                            @lineTotal 
+                                                            @if(@item.Value.Qty > 1)
+                                                            {
+                                                                @Html.Raw("<br/>($" + @item.Value.Product.Price + "/ea)")
+                                                            }
+
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <!-- / Cart Item-->
                                         }
                                     }
 
@@ -90,24 +113,55 @@
                     <div class="pb-4 border-bottom">
                         <div class="d-flex flex-column flex-md-row justify-content-md-between mb-4 mb-md-2">
                             <div>
-                                <p class="m-0 fw-bold fs-5">Grand Total</p>
-                                @*<span class="text-muted small">Inc $45.89 sales tax</span>*@
+                                <p class="m-0 fw-bold fs-5">Total</p>
+                                <span class="text-muted small">Sales tax not included</span>
                             </div>
-                            <p class="m-0 fs-5 fw-bold">$422.99</p>
+                            <p class="m-0 fs-5 fw-bold">@cartTotal</p>
                         </div>
                     </div>
-                    @*<div class="py-4">
+
+                    
+
+                    @* This section below contains the "Proceed to Checkout" button
+                        This button currently contains the code to submit the order and create the OrderProducts record
+                        as we originally did in GadgetStore. However, we cannot use this because we do not yet have
+                        user shipping details. 
+
+                        This section will be updated to instead simply link to another page where another form
+                        can gather shipping info for the order. Once all details have been acquired for the order 
+                        and orderproducts records to be created, we can place this button on the appropriate screen
+                        and submit to create the records.
+                    *@
+
+                    @if (@User.Identity.IsAuthenticated)
+                    {
+                         <a asp-action="SubmitOrder" class="btn btn-dark w-100 text-center" role="button">Proceed to checkout</a>
+                    }
+                    else
+                    {
+                        <p class="text-center mt-3"><span class="text-muted small" style="text-center">To place this order you must be logged in.</span></p>
+                        <button disabled="disabled" class="btn btn-dark w-100 text-center">Proceed to checkout</button>
+                    } @* end Proceed to Checkout Button - Submits Orders and creates db records for order*@
+
+
+
+
+                    @* FOR REFERENCE ONLY 
+
+                        *** Original styled Coupon Code Section
+                        <div class="py-4">
                         <div class="input-group mb-0">
                         <input type="text" class="form-control" placeholder="Enter coupon code">
                         <button class="btn btn-secondary btn-sm px-4">Apply</button>
                         </div>
-                        </div>*@
-                    <a href="./checkout.html" class="btn btn-dark w-100 text-center" role="button">Proceed to checkout</a>
-                </div>
-                            <!-- added -->
-                            <li><a asp-action="Index" asp-controller="Products" class="btn btn-info">Back to Shopping</a></li>
-                            <!-- /added -->
+                        </div> 
+                        *** Original styled unlinked button
+                        <a href="./checkout.html" class="btn btn-dark w-100 text-center" role="button">Proceed to checkout</a>*@
+                    
+                </div>                    
             </div>
+            @*added*@                    
+                        <a asp-action="Index" asp-controller="Products">Back to Shopping</a>
         </div>
     </div>
     <!-- /Page Content -->

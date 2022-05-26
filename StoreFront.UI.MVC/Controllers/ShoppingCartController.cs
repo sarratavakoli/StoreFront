@@ -122,5 +122,92 @@ namespace StoreFront.UI.MVC.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public IActionResult RemoveFromCart(int id)
+        {
+            //retrieve the cart from session
+            var sessionCart = HttpContext.Session.GetString("cart");
+
+            //convert JSON cart to C#
+            Dictionary<int, CartItemViewModel> shoppingCart = JsonConvert.DeserializeObject<Dictionary<int, CartItemViewModel>>(sessionCart);
+
+            //remove cart item
+            shoppingCart.Remove(id);
+
+            //if there are no remaining items in the cart, remove from session
+            if (shoppingCart.Count == 0)
+            {
+                HttpContext.Session.Remove("cart");
+            }
+            //otherwise, update the session variable with our local cart contents
+            else
+            {
+                string jsonCart = JsonConvert.SerializeObject(shoppingCart);
+                HttpContext.Session.SetString("cart", jsonCart);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult UpdateCart(int productId, int qty)
+        {
+            //retrieve the cart from session
+            var sessionCart = HttpContext.Session.GetString("cart");
+
+            //convert JSON Cart to C#
+            Dictionary<int, CartItemViewModel> shoppingCart = JsonConvert.DeserializeObject<Dictionary<int, CartItemViewModel>>(sessionCart);
+
+            //update qty at index of passed in Id
+            shoppingCart[productId].Qty = qty;
+
+            //update session
+            string jsonCart = JsonConvert.SerializeObject(shoppingCart);
+            HttpContext.Session.SetString("cart", jsonCart);
+
+            return RedirectToAction("Index");
+        }
+
+        //This method must be async in order to invoke the UserManager's async methods in this action.        
+        public async Task<IActionResult> SubmitOrder()
+        {
+            string? userId = (await _userManager.GetUserAsync(HttpContext.User))?.Id;
+            User ud = _context.Users.Find(userId);
+            Order o = new Order()
+            {
+                Date = DateTime.Now,
+                UserId = userId,
+                ShipName = ud.FullName,
+                //These are not in the user record so they will need to come from another screen
+                //ShipCity = ud.City,
+                //ShipState = ud.State,
+                //ShipZip = ud.Zip
+            };
+
+            _context.Orders.Add(o);
+            var sessionCart = HttpContext.Session.GetString("cart");
+            Dictionary<int, CartItemViewModel> shoppingCart = JsonConvert.DeserializeObject<Dictionary<int, CartItemViewModel>>(sessionCart);
+
+            //create orderproduct object for each record in the cart
+            foreach (var item in shoppingCart)
+            {
+                OrderProduct op = new OrderProduct()
+                {
+                    OrderId = o.Id,
+                    Id = item.Key,
+                    ProductPrice = item.Value.Product.Price,
+                    UnitQuantity = (short)item.Value.Qty
+                };
+
+                //ONLY need to add items to an existing entity if the items are a related record from a linking table etc
+                o.OrderProducts.Add(op);
+
+            }
+
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Orders");
+
+        }
+
+
     }
 }
