@@ -56,6 +56,24 @@ namespace StoreFront.UI.MVC.Controllers
             return View(shoppingCart);
         }
 
+
+        public IActionResult Checkout()
+        {
+            var sessionCart = HttpContext.Session.GetString("cart");
+            Dictionary<int, CartItemViewModel> shoppingCart = null;
+            if (sessionCart == null || sessionCart.Count() == 0)
+            {
+                shoppingCart = new Dictionary<int, CartItemViewModel>();
+                ViewBag.Message = "There are no items in your cart.";
+            }
+            else
+            {
+                ViewBag.Message = null;
+                shoppingCart = JsonConvert.DeserializeObject<Dictionary<int, CartItemViewModel>>(sessionCart);
+            }
+            return View(shoppingCart);
+        }
+
         //added add to cart action
         public IActionResult AddToCart(int id)
         {
@@ -172,15 +190,23 @@ namespace StoreFront.UI.MVC.Controllers
         {
             string? userId = (await _userManager.GetUserAsync(HttpContext.User))?.Id;
             User ud = _context.Users.Find(userId);
+            
             Order o = new Order()
             {
                 Date = DateTime.Now,
                 UserId = userId,
-                ShipName = ud.FullName,
-                //These are not in the user record so they will need to come from another screen
-                //ShipCity = ud.City,
-                //ShipState = ud.State,
-                //ShipZip = ud.Zip
+                //from the Checkout form
+                //For the Orders record:
+                
+                
+                //ShipName
+                //ShipAddress
+                //ShipAddress2
+                //ShipCity
+                //ShipState
+                //ShipZip
+                
+                
             };
 
             _context.Orders.Add(o);
@@ -192,10 +218,13 @@ namespace StoreFront.UI.MVC.Controllers
             {
                 OrderProduct op = new OrderProduct()
                 {
-                    OrderId = o.Id,
                     Id = item.Key,
-                    ProductPrice = item.Value.Product.Price,
-                    UnitQuantity = (short)item.Value.Qty
+                    //Get VersionProductId from initial user selection
+                    //and set it here
+                    OrderId = o.Id,
+                    UnitQuantity = (short)item.Value.Qty,
+                    UnitType = null,
+                    ProductPrice = item.Value.Product.Price
                 };
 
                 //ONLY need to add items to an existing entity if the items are a related record from a linking table etc

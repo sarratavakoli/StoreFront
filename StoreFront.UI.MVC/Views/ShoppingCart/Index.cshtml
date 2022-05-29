@@ -25,11 +25,11 @@
                         <ul class="list-unstyled d-flex justify-content-start mt-4 align-items-center fw-bolder small">
                             <li class="me-4">
                                 <a class="nav-link-checkout active"
-                                   href="./cart.html">Your Cart</a>
+                                   href="#">Your Cart</a>
                             </li>
                             <li class="me-4">
                                 <a class="nav-link-checkout "
-                                   href="./checkout.html">Information</a>
+                                   href="@Url.Action("Checkout", "ShoppingCart")">Information</a>
                             </li>
                             <li class="me-4">
                                 <a class="nav-link-checkout "
@@ -61,8 +61,7 @@
                                                 <div class="row mx-0 py-4 g-0 border-bottom">
                                                     <div class="col-2 position-relative">
                                                         <picture class="d-block border">
-                                                            <!-- placeholder image -->
-                                                    <img class="img-fluid" src="./assets/images/products/product-cart-1.jpg" alt="">
+                                                            <img src="~/assets/images/products/@item.Value.Product.Image" class="img-fluid" alt="@item.Value.Product.Description" />
                                                         </picture>
                                                     </div>
                                                     <div class="col-9 offset-1">
@@ -87,12 +86,17 @@
                                                         <p class="fw-bolder text-end text-muted m-0">                                                            
                                                             @{
                                                                 decimal? lineTotal = item.Value.Product.Price * item.Value.Qty;
-                                                                cartTotal += lineTotal;
+                                                                cartTotal += lineTotal;                                                                
                                                             }
-                                                            @lineTotal 
+                                                            @string.Format($"{@lineTotal:c}")
                                                             @if(@item.Value.Qty > 1)
                                                             {
-                                                                @Html.Raw("<br/>($" + @item.Value.Product.Price + "/ea)")
+                                                                <br/>
+                                                            @Html.Raw(
+                                                                    
+                                                                    string.Format($"({@item.Value.Product.Price:c}/ea)")
+                                                                )
+                                                                @*@Html.Raw("<br/>($" + @item.Value.Product.Price + "/ea)")*@
                                                             }
 
                                                         </p>
@@ -116,7 +120,7 @@
                                 <p class="m-0 fw-bold fs-5">Total</p>
                                 <span class="text-muted small">Sales tax not included</span>
                             </div>
-                            <p class="m-0 fs-5 fw-bold">@cartTotal</p>
+                            <p class="m-0 fs-5 fw-bold">@string.Format($"{cartTotal:c}")</p>
                         </div>
                     </div>
 

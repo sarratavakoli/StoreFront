@@ -48,6 +48,9 @@
                 <input asp-for="Image" class="form-control" />
                 <span asp-validation-for="Image" class="text-danger"></span>*@
 
+                @* the following hidden tag prevents the pre-existing Image from being overwritten by a null value*@
+                <input type="hidden" asp-for="Image" />
+
                 <label asp-for="Image" class="control-label"></label>
                 <input type="file" asp-for="UploadedImage" class="form-control" />
                 <span asp-validation-for="Image" class="text-danger"></span>
