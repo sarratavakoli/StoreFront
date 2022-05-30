@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<StoreFront.DATA.EF.Models.Product>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Product List";
 }
 
-<h1>Index</h1>
+<h1>Product List</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Add New Product</a>
 </p>
 <table class="table">
     <thead>
@@ -53,8 +53,7 @@
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 <td>
-                    @*@Html.DisplayFor(modelItem => item.Image)*@
-                    <img src="~/assets/images/products/@item.Image" class="img-fluid" alt="@item.Description" />
+                    <img src="~/assets/images/products/t_@item.Image" class="img-fluid" alt="@item.Description" />
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Category.Name)

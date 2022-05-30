@@ -31,6 +31,14 @@ namespace StoreFront.UI.MVC.Controllers
             return View(await storeFrontContext.ToListAsync());
         }
 
+        // GET: Products
+        public async Task<IActionResult> Category()
+        {
+            var storeFrontContext = _context.Products.Where(p => p.IsActive)
+                .Include(p => p.Category).Include(p => p.Supplier);
+            return View(await storeFrontContext.ToListAsync());
+        }
+
         // GET: Discontinued Products
         //public async Task<IActionResult> DiscontinuedProducts()
         //{
@@ -38,6 +46,8 @@ namespace StoreFront.UI.MVC.Controllers
         //        .Include(p => p.Category).Include(p => p.Supplier);
         //    return View(await storeFrontContext.ToListAsync());
         //}
+
+
 
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -64,7 +74,7 @@ namespace StoreFront.UI.MVC.Controllers
         public IActionResult Create()
         {
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Address");
+            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Name");
             return View();
         }
 
@@ -130,7 +140,7 @@ namespace StoreFront.UI.MVC.Controllers
                 {
                     //If no image was uploaded, assign a default filename
                     //Will also need to download a default image and name it 'noimage.png' -> copy it to the /images folder
-                    product.Image = "noimage.png";
+                    product.Image = "9448d366-b819-4aef-bed6-5c9694eaf6b1.png";
                 }
 
                 #endregion
@@ -140,7 +150,7 @@ namespace StoreFront.UI.MVC.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Address", product.SupplierId);
+            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Name", product.SupplierId);
             return View(product);
         }
 
@@ -158,7 +168,7 @@ namespace StoreFront.UI.MVC.Controllers
                 return NotFound();
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Address", product.SupplierId);
+            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Name", product.SupplierId);
             return View(product);
         }
 
@@ -245,7 +255,7 @@ namespace StoreFront.UI.MVC.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Address", product.SupplierId);
+            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Name", product.SupplierId);
             return View(product);
         }
 

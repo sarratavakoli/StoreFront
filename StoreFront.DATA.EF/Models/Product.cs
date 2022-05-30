@@ -15,7 +15,7 @@ namespace StoreFront.DATA.EF.Models
         public string? Description { get; set; }
         public int CategoryId { get; set; }
         public int? SupplierId { get; set; }
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
         public decimal Price { get; set; }
         public string? Image { get; set; }
 

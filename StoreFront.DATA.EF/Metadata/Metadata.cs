@@ -57,6 +57,7 @@ namespace StoreFront.DATA.EF
         [StringLength(200, ErrorMessage = "Must not exceed 200 characters")]
         public string Name { get; set; } = null!;
 
+        [DataType(DataType.MultilineText)]
         [StringLength(500, ErrorMessage = "Must not exceed 500 characters")]
         public string? Description { get; set; }
         
@@ -78,6 +79,8 @@ namespace StoreFront.DATA.EF
         [Display(Name = "Price")]
         [Range(0, (double)decimal.MaxValue)]
         public decimal Price { get; set; }
+        
+        [DataType(DataType.MultilineText)]
         public string? Properties { get; set; }
         public string? Image { get; set; }
         public short? UnitsInStock { get; set; }
