@@ -35,6 +35,7 @@
             </a>
             <ul class="dropdown-menu">
                 <li><a class="nav-link text-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Manage Account</a></li>
+                <li><a class="nav-link text-item" href="@Url.Action("Index", "Orders")">Orders</a></li>
                 <li>
                     <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                         <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>

@@ -1,14 +1,15 @@
 ﻿@model StoreFront.DATA.EF.Models.Category
 
 @{
-    ViewData["Title"] = "Delete " + Model.Name + " Category?";
+    ViewData["Title"] = "Delete '" + Model.Name + "' Category?";
 }
 
 <h1>@ViewData["Title"]</h1>
 
 <h3 class="text-danger">This action is permanent and cannot be undone.</h3>
+<br/>
 <div>
-    <hr />
+    @*<hr />
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
@@ -16,11 +17,12 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
-    </dl>
+    </dl>*@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <br/><br/>
         <a asp-action="Index">Back to Categories</a>
     </form>
 </div>

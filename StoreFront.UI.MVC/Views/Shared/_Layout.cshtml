@@ -94,7 +94,7 @@
 
                         <!-- Shop Link -->
                         <li class="ms-1 d-none d-lg-inline-block">
-                            <a class="nav-link text-body" href="@Url.Action("Index", "Products")">
+                            <a class="nav-link text-body" href="@Url.Action("Category", "Products")">
                                 Shop
                             </a>
                         </li>
@@ -117,6 +117,7 @@
                                     Admin &nabla;
                                 </a>
                                 <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "Products")">Products</a></li>
                                     <li><a class="dropdown-item" href="@Url.Action("Index", "Categories")">Categories</a></li>
                                     <li><a class="dropdown-item" href="@Url.Action("Index", "Suppliers")">Suppliers</a></li>
                                     <li><a class="dropdown-item" href="@Url.Action("Index", "Orders")">Orders</a></li>
@@ -173,11 +174,13 @@
 
                         <!-- Navbar Cart Icon-->
                         <li class="ms-1 d-inline-block position-relative dropdown-cart">
-                            <button class="nav-link me-0 disable-child-pointer border-0 p-0 bg-transparent text-body"
-                                type="button">
-                                Cart <!--(2)-->
-                            </button>
-                            <div class="cart-dropdown dropdown-menu">
+                            <a asp-action="Index" asp-controller="ShoppingCart" class="text-decoration-none">
+                                <button class="nav-link me-0 disable-child-pointer border-0 p-0 bg-transparent text-body "
+                                    type="button">
+                                    Cart <!--(2)-->
+                                </button>
+                            </a>
+                            @*<div class="cart-dropdown dropdown-menu">
                             
                                 <!-- Cart Header-->
                                 <div class="d-flex justify-content-between align-items-center border-bottom pt-3 pb-4">
@@ -243,7 +246,7 @@
                                     <a href="~/checkout.html" class="btn btn-dark w-100 text-center mt-2" role="button">Proceed To Checkout</a>
                                 </div>
                                 <!-- / Cart Summary-->
-                              </div>
+                              </div>*@
                             
     
                         </li>

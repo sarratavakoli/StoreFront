@@ -1,22 +1,23 @@
 ﻿@model IEnumerable<StoreFront.DATA.EF.Models.VersionsProduct>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Versions of '" + @ViewData["ProductName"] + "'";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create New Versions</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Properties)
-            </th>
+            
             <th>
                 @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Version)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.UnitsInStock)
@@ -25,13 +26,10 @@
                 @Html.DisplayNameFor(model => model.UnitsOnOrder)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Properties)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Version)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product)
             </th>
             <th></th>
         </tr>
@@ -39,11 +37,12 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            
             <td>
-                @Html.DisplayFor(modelItem => item.Properties)
+                <img src="~/assets/images/products/t_@Html.DisplayFor(modelItem => item.Product.Image)" class="img-fluid" alt="" />
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Image)
+                @Html.DisplayFor(modelItem => item.Version)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UnitsInStock)
@@ -52,13 +51,10 @@
                 @Html.DisplayFor(modelItem => item.UnitsOnOrder)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Properties)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Version)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Product.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using StoreFront.DATA.EF.Models;
 
 namespace StoreFront.UI.MVC.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class VersionsProductsController : Controller
     {
         private readonly StoreFrontContext _context;
@@ -19,9 +21,12 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: VersionsProducts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            var storeFrontContext = _context.VersionsProducts.Include(v => v.Product);
+            //updated to include id in parameter and where clause
+            var storeFrontContext = _context.VersionsProducts.Where(x => x.ProductId == id)
+                .Include(v => v.Product);
+            ViewData["ProductName"] = string.Format(_context.Products.Where(x => x.Id == id).First().Name);
             return View(await storeFrontContext.ToListAsync());
         }
 
