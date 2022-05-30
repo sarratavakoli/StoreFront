@@ -25,9 +25,11 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: Products
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
-            var storeFrontContext = _context.Products.Include(p => p.Category).Include(p => p.Supplier);
+            var storeFrontContext = _context.Products.Include(p => p.Category).Include(p => p.Supplier)
+                .Include(p => p.VersionsProducts);
             return View(await storeFrontContext.ToListAsync());
         }
 
@@ -35,7 +37,8 @@ namespace StoreFront.UI.MVC.Controllers
         public async Task<IActionResult> Category()
         {
             var storeFrontContext = _context.Products.Where(p => p.IsActive)
-                .Include(p => p.Category).Include(p => p.Supplier);
+                .Include(p => p.Category).Include(p => p.Supplier)
+                .Include(p => p.VersionsProducts);
             return View(await storeFrontContext.ToListAsync());
         }
 
@@ -60,6 +63,7 @@ namespace StoreFront.UI.MVC.Controllers
             var product = await _context.Products
                 .Include(p => p.Category)
                 .Include(p => p.Supplier)
+                .Include(p => p.VersionsProducts)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
@@ -70,7 +74,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: Products/Create
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
@@ -82,6 +86,7 @@ namespace StoreFront.UI.MVC.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Description,CategoryId,SupplierId,IsActive,Price,Image,UploadedImage")] Product product)
         {
@@ -154,7 +159,10 @@ namespace StoreFront.UI.MVC.Controllers
             return View(product);
         }
 
+       
+
         // GET: Products/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Products == null)
@@ -176,6 +184,7 @@ namespace StoreFront.UI.MVC.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,CategoryId,SupplierId,IsActive,Price,Image,UploadedImage")] Product product)
         {
@@ -260,6 +269,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: Products/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Products == null)
@@ -270,6 +280,7 @@ namespace StoreFront.UI.MVC.Controllers
             var product = await _context.Products
                 .Include(p => p.Category)
                 .Include(p => p.Supplier)
+                .Include(p => p.VersionsProducts)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
@@ -280,6 +291,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // POST: Products/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

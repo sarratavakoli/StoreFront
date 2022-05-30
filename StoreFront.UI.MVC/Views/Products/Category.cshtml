@@ -9,7 +9,7 @@
     <!-- Page Content Goes Here -->
     <!-- Category Top Banner -->
     <div class="py-10 bg-img-cover bg-overlay-dark position-relative overflow-hidden bg-pos-center-center rounded-0"
-         style="background-image: url(~/assets/images/banners/banner-category-top.jpg);">
+         style="background-image: url(/assets/images/banners/banner-category-top.jpg);">
         <div class="container-fluid position-relative z-index-20" data-aos="fade-right" data-aos-delay="300">
             <h1 class="fw-bold display-6 mb-4 text-white">Latest Arrivals</h1>
             <div class="col-12 col-md-6">
@@ -25,33 +25,38 @@
         <!-- Category Toolbar-->
         <div class="d-flex justify-content-between items-center pt-5 pb-4 flex-column flex-lg-row">
             <div>
-                <nav aria-label="breadcrumb">
+
+                @* Breadcrumbs
+                    <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Sneakers</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">New Releases</li>
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Sneakers</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">New Releases</li>
                     </ol>
-                </nav>        <h1 class="fw-bold fs-3 mb-2">New Releases (@Model.Count())</h1>
+                    </nav>  *@
+
+                <h1 class="fw-bold fs-3 mb-2">New Releases (@Model.Count())</h1>
                 <p class="m-0 text-muted small">Showing 1 - @Model.Count()</p>
             </div>
             <div class="d-flex justify-content-end align-items-center mt-4 mt-lg-0 flex-column flex-md-row">
 
-                <!-- Filter Trigger-->
-                <button class="btn bg-light p-3 me-md-3 d-flex align-items-center fs-7 lh-1 w-100 mb-2 mb-md-0 w-md-auto "
-                        type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilters" aria-controls="offcanvasFilters">
+                @*<!-- Filter Trigger-->
+                    <button class="btn bg-light p-3 me-md-3 d-flex align-items-center fs-7 lh-1 w-100 mb-2 mb-md-0 w-md-auto "
+                    type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilters" aria-controls="offcanvasFilters">
                     <i class="ri-equalizer-line me-2"></i> Filters
-                </button>
-                <!-- / Filter Trigger-->
-                <!-- Sort Options-->
-                <select class="form-select form-select-sm border-0 bg-light p-3 pe-5 lh-1 fs-7">
+                    </button>
+                    <!-- / Filter Trigger-->
+                    <!-- Sort Options-->
+                    <select class="form-select form-select-sm border-0 bg-light p-3 pe-5 lh-1 fs-7">
                     <option selected>Sort By</option>
                     <option value="1">Hi Low</option>
                     <option value="2">Low Hi</option>
                     <option value="3">Name</option>
-                </select>
-                <!-- / Sort Options-->
+                    </select>
+                    <!-- / Sort Options-->*@
             </div>
-        </div>            <!-- /Category Toolbar-->
+        </div>
+        <!-- /Category Toolbar-->
         <!-- Products-->
         <div class="row g-4">
             @foreach (var item in Model)
@@ -65,12 +70,12 @@
                             @* This section can be used to add a badge in the top left corner
                                 <div class="card-badges">
                                 <span class="badge badge-card">
-                                    <span class="f-w-2 f-h-2 bg-danger rounded-circle d-block me-1"></span> Sale
+                                <span class="f-w-2 f-h-2 bg-danger rounded-circle d-block me-1"></span> Sale
                                 </span>
-                            </div>*@
+                                </div>*@
 
                             @* This is for the heart in the top right corner
-                            <span class="position-absolute top-0 end-0 p-2 z-index-20 text-muted"><i class="ri-heart-line"></i></span>*@
+                                <span class="position-absolute top-0 end-0 p-2 z-index-20 text-muted"><i class="ri-heart-line"></i></span>*@
 
                             @* Image *@
                             <picture class="position-relative overflow-hidden d-block bg-light">
@@ -79,21 +84,22 @@
                             </picture>
 
                             @* Add to Cart button *@
-                            <div class="position-absolute start-0 bottom-0 end-0 z-index-20 p-2">
-                                <a asp-action="AddToCart" asp-controller="ShoppingCart" asp-route-id="@item.Id" style="z-index: 10000;" class="option2 text-decoration-none">
-                                    <button class="btn btn-quick-add"><i class="ri-add-line me-2"></i></button>
-                                </a>
-                            </div>
+                            @*<a asp-action="AddToCart" asp-controller="ShoppingCart" asp-route-id="@item.Id" class="option2 text-decoration-none">
+                                <div class="position-absolute start-0 bottom-0 end-0 z-index-20 p-2">
+                                    <button class="btn btn-quick-add"><i class="ri-add-line me-2"></i> Quick Add</button>
+                                </div>
+                            </a>*@
 
                         </div>
 
                         @* Text below image *@
                         <div class="card-body px-0">
-                            <a asp-action="Details" asp-route-id="@item.Id" class="text-decoration-none link-cover">@item.Name</a>                            
+                            <a asp-action="Details" asp-route-id="@item.Id" class="text-decoration-none link-cover">@item.Name</a>
                             @*<small class="text-muted d-block">Version Info Here</small>*@
                             <p class="mt-2 mb-0 small">
                                 @*<s class="text-muted">Full Price</s> *@
-                                <span class="text-danger">@string.Format($"{item.Price:c}")</span></p>
+                                <span class="text-danger">@string.Format($"{item.Price:c}")</span>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -102,15 +108,15 @@
 
         </div>
         <!-- / Products-->
-        <!-- Pagination-->
-        <div class="d-flex flex-column f-w-44 mx-auto my-5 text-center">
+        @*<!-- Pagination-->
+            <div class="d-flex flex-column f-w-44 mx-auto my-5 text-center">
             <small class="text-muted">Showing 9 of 121 products</small>
             <div class="progress f-h-1 mt-3">
-                <div class="progress-bar bg-dark" role="progressbar" style="width: 25%" aria-valuenow="25"
-                     aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar bg-dark" role="progressbar" style="width: 25%" aria-valuenow="25"
+            aria-valuemin="0" aria-valuemax="100"></div>
             </div>
             <a href="#" class="btn btn-outline-dark btn-sm mt-5 align-self-center py-3 px-4 border-2">Load More</a>
-        </div>            <!-- / Pagination-->
+            </div>            <!-- / Pagination-->*@
     </div>
 
     <!-- /Page Content -->

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,20 +11,39 @@ using StoreFront.DATA.EF.Models;
 
 namespace StoreFront.UI.MVC.Controllers
 {
+    [Authorize]
     public class OrdersController : Controller
     {
         private readonly StoreFrontContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public OrdersController(StoreFrontContext context)
+        public OrdersController(StoreFrontContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        // GET: Orders
+        // GET: Orders        
         public async Task<IActionResult> Index()
         {
-            var storeFrontContext = _context.Orders.Include(o => o.User);
-            return View(await storeFrontContext.ToListAsync());
+            if (User.IsInRole("Admin"))
+            {
+                var orders = _context.Orders.Include(o => o.User);
+                return View(await orders.ToListAsync());
+            }
+            else
+            {
+                string userId = (await _userManager.GetUserAsync(HttpContext.User))?.Id;
+                var orders = _context.Orders.Where(x => x.UserId == userId).Include(o => o.User);
+
+                return View(await orders.ToListAsync());
+            }
+
+
+
+            // Original code
+            //var storeFrontContext = _context.Orders.Include(o => o.User);
+            //return View(await storeFrontContext.ToListAsync());
         }
 
         // GET: Orders/Details/5
@@ -45,6 +66,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: Orders/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "FullName");
@@ -55,6 +77,7 @@ namespace StoreFront.UI.MVC.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,UserId,Date,ShipName,ShipAddress,ShipAddress2,ShipCity,ShipState,ShipZip")] Order order)
         {
@@ -69,6 +92,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: Orders/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Orders == null)
@@ -89,6 +113,7 @@ namespace StoreFront.UI.MVC.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,Date,ShipName,ShipAddress,ShipAddress2,ShipCity,ShipState,ShipZip")] Order order)
         {
@@ -122,6 +147,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: Orders/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Orders == null)
@@ -143,6 +169,7 @@ namespace StoreFront.UI.MVC.Controllers
         // POST: Orders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Orders == null)
