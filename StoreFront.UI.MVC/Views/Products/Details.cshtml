@@ -139,6 +139,17 @@
                             </div>
                         </div>
 
+
+
+                        @*  Trying to add method for user input to select version
+                            
+                        <select name="versions" asp-items="@Model.VersionsProducts" class="form-control">
+                            <option value="0">Version</option>
+                        </select>*@
+
+
+
+
                         @* Section for Photo Versions - not currently toggleable
                             <div class="mb-3">
                             <small class="text-uppercase pt-4 d-block fw-bolder text-muted">
@@ -153,8 +164,8 @@
                             </picture>
                             </div>
                             </div>*@
-
-                        <button class="btn btn-dark w-100 mt-4 mb-0 hover-lift-sm hover-boxshadow">Add To Cart</button>
+                            <a asp-action="AddToCart" asp-controller="ShoppingCart" asp-route-id="@Model.Id">
+                        <button class="btn btn-dark w-100 mt-4 mb-0 hover-lift-sm hover-boxshadow">Add To Cart</button></a>
 
 
                         <!-- Product Highlights-->
