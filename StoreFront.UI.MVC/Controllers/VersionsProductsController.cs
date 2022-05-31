@@ -50,7 +50,7 @@ namespace StoreFront.UI.MVC.Controllers
         }
 
         // GET: VersionsProducts/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
             ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name");
             return View();
@@ -87,6 +87,7 @@ namespace StoreFront.UI.MVC.Controllers
                 return NotFound();
             }
             ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Name", versionsProduct.ProductId);
+            //ViewData["ProductName"] = string.Format(_context.Products.Where(x => x.Id == id).First().Name);
             return View(versionsProduct);
         }
 
@@ -141,7 +142,7 @@ namespace StoreFront.UI.MVC.Controllers
             {
                 return NotFound();
             }
-
+            ViewData["ProductName"] = string.Format(_context.Products.Where(x => x.Id == id).First().Name);
             return View(versionsProduct);
         }
 

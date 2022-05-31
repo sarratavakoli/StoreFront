@@ -42,16 +42,6 @@ namespace StoreFront.UI.MVC.Controllers
             return View(await storeFrontContext.ToListAsync());
         }
 
-        // GET: Discontinued Products
-        //public async Task<IActionResult> DiscontinuedProducts()
-        //{
-        //    var storeFrontContext = _context.Products.Where(p => !p.IsActive)
-        //        .Include(p => p.Category).Include(p => p.Supplier);
-        //    return View(await storeFrontContext.ToListAsync());
-        //}
-
-
-
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -70,6 +60,7 @@ namespace StoreFront.UI.MVC.Controllers
                 return NotFound();
             }
 
+            
             return View(product);
         }
 
