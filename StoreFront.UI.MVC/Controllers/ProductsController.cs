@@ -55,12 +55,11 @@ namespace StoreFront.UI.MVC.Controllers
                 .Include(p => p.Supplier)
                 .Include(p => p.VersionsProducts)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (product == null)
             {
                 return NotFound();
             }
-
-            
             return View(product);
         }
 
