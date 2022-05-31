@@ -69,7 +69,7 @@
                                                     <div class="col-9 offset-1">
                                                         <div>
                                                             <h6 class="justify-content-between d-flex align-items-start mb-2">
-                                                        @item.Value.Product.Name                                                        
+                                                        @item.Value.Product.Product.Name                                                        
                                                         <a asp-controller="ShoppingCart" asp-action="RemoveFromCart" asp-route-id="@item.Key" style="text-decoration: none;" >
                                                                 <i class="ri-close-line ms-3"></i>
                                                         </a>
@@ -87,13 +87,13 @@
                                                         </div>
                                                         <p class="fw-bolder text-end text-muted m-0">                                                            
                                                             @{
-                                                                decimal? lineTotal = item.Value.Product.Price * item.Value.Qty;
+                                                                decimal? lineTotal = item.Value.Product.Product.Price * item.Value.Qty;
                                                                 cartTotal += lineTotal;
                                                             }
                                                             @lineTotal 
                                                             @if(@item.Value.Qty > 1)
                                                             {
-                                                                @Html.Raw("<br/>($" + @item.Value.Product.Price + "/ea)")
+                                                                @Html.Raw("<br/>($" + @item.Value.Product.Product.Price + "/ea)")
                                                             }
 
                                                         </p>

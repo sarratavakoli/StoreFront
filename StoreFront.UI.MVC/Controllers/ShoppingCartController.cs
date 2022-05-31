@@ -97,7 +97,7 @@ namespace StoreFront.UI.MVC.Controllers
 
             // add newly selected products to the cart
             // retrieve product from the database
-            Product product = _context.Products.Find(id);
+            VersionsProduct product = _context.VersionsProducts.Find(id);
 
             // instantiate the object so we can add to the cart
             CartItemViewModel civm = new CartItemViewModel(1, product);
@@ -194,7 +194,7 @@ namespace StoreFront.UI.MVC.Controllers
                 {
                     OrderId = o.Id,
                     Id = item.Key,
-                    ProductPrice = item.Value.Product.Price,
+                    ProductPrice = item.Value.Product.Product.Price,
                     UnitQuantity = (short)item.Value.Qty
                 };
 
