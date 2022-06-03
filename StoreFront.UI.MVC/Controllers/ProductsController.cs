@@ -61,13 +61,11 @@ namespace StoreFront.UI.MVC.Controllers
                 return NotFound();
             }
 
-            //Generate a DDL of versions available for user selection
-            ViewData["Version"] = new SelectList(_context.VersionsProducts, "Id", "Version");
+            //List<VersionsProduct> versions = _context.VersionsProducts.Where(vp => vp.ProductId == id).ToList();
+            //ViewData["Version"] = versions;
 
-            //var versions = _context.Products.Where(x => x.Id == id)
-            //    .Include(v => v.VersionsProducts).ToList();
+            ViewData["Version"] = new SelectList(product.VersionsProducts, "Id", "Version");
 
-            //ViewData["ddlVersions"] = new SelectList(versions, "Id", "Version");
             return View(product);
         }
 

@@ -46,5 +46,15 @@ namespace StoreFront.DATA.EF.Models
     }
     #endregion
 
+    #region VersionsProduct
+    [ModelMetadataType(typeof(VersionsProduct))]
+    public partial class VersionsProduct
+    {
+        public override string ToString()
+        {
+            return Version.ToString();
+        }
+    }
 
+    #endregion
 }

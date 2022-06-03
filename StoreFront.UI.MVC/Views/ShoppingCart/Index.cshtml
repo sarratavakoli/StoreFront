@@ -29,82 +29,98 @@
                                    href="@Url.Action("Index", "ShoppingCart")">Your Cart</a>
                             </li>
                             <li class="me-4">
-                                <a class="nav-link-checkout "
-                                   href="./checkout.html">Information</a>
+                                @if (@Model.Count() == 0)
+                                {
+                                    <a class="nav-link-checkout" href="@Url.Action("Checkout", "ShoppingCart")">Information</a>
+                                }
+                                else
+                                {
+                                    @string.Format("Information")
+                                }
                             </li>
                             <li class="me-4">
-                                <a class="nav-link-checkout "
-                                   href="./checkout-shipping.html">Shipping</a>
+                                Shipping
                             </li>
                             <li>
-                                <a class="nav-link-checkout nav-link-last "
-                                   href="./checkout-payment.html">Payment</a>
+                                Payment
                             </li>
 
                         </ul>
-                    </nav>                        
+                    </nav>
                     <div class="mt-5">
                         <h3 class="fs-5 fw-bolder mb-0 border-bottom pb-4">Your Cart</h3>
                         <div class="table-responsive">
                             <table class="table align-middle">
                                 <tbody class="border-0">
-
+                                    @{
+                                        int count = 0;
+                                     }
                                     @if (Model.Count == 0)
                                     {
-                                            <p class="alert alert-warning text-center">@ViewBag.Message</p>
+                                        <p class="alert alert-warning text-center">@ViewBag.Message</p>
                                     }
                                     else
                                     {
                                         @foreach (var item in Model)
                                         {
-                                            @* add ability to remove items *@
-                                                <!-- Cart Item-->
-                                                <div class="row mx-0 py-4 g-0 border-bottom">
-                                                    <div class="col-2 position-relative">
-                                                        <picture class="d-block border">
-                                                            <!-- placeholder image -->
-                                                    <img class="img-fluid" src="./assets/images/products/product-cart-1.jpg" alt="">
-                                                        </picture>
-                                                    </div>
-                                                    <div class="col-9 offset-1">
-                                                        <div>
-                                                            <h6 class="justify-content-between d-flex align-items-start mb-2">
-                                                        @item.Value.Product.Product.Name                                                        
-                                                        <a asp-controller="ShoppingCart" asp-action="RemoveFromCart" asp-route-id="@item.Key" style="text-decoration: none;" >
-                                                                <i class="ri-close-line ms-3"></i>
-                                                        </a>
-
-                                                            </h6>
-                                                            <span class="d-block text-muted fw-bolder text-uppercase fs-9">Version: Black / Qty: @item.Value.Qty</span>
-                                                            <br/>
-                                                            
-                                                            <form asp-action="UpdateCart">
-                                                                <input type="hidden" name="productId" value="@item.Key" />
-                                                                <input type="text" name="qty" value="@item.Value.Qty" style="max-width: 100px">
-                                                                <input type="submit" value="Update Quantity" class="d-inline text-muted fx-bolder text-uppercase fs-9">
-                                                            </form>
-
-                                                        </div>
-                                                        <p class="fw-bolder text-end text-muted m-0">                                                            
-                                                            @{
-                                                                decimal? lineTotal = item.Value.Product.Product.Price * item.Value.Qty;
-                                                                cartTotal += lineTotal;
-                                                            }
-                                                            @lineTotal 
-                                                            @if(@item.Value.Qty > 1)
-                                                            {
-                                                                @Html.Raw("<br/>($" + @item.Value.Product.Product.Price + "/ea)")
-                                                            }
-
-                                                        </p>
-                                                    </div>
+                                            <!-- Cart Item-->
+                                            <div class="row mx-0 py-4 g-0 border-bottom">
+                                                <div class="col-2 position-relative">
+                                                    <picture class="d-block border">
+                                                <img class="img-fluid" src="/assets/images/products/@ViewBag.CartProduct[count].Image" alt="">
+                                                    </picture>
                                                 </div>
-                                                <!-- / Cart Item-->
+                                                <div class="col-9 offset-1">
+                                                    <div>
+                                                        <h6 class="justify-content-between d-flex align-items-start mb-2">
+                                                            @ViewBag.CartProduct[count].Name
+                                                            <a asp-controller="ShoppingCart" asp-action="RemoveFromCart"
+                                                            asp-route-id="@item.Key" style="text-decoration: none;">
+                                                                <i class="ri-close-line ms-3"></i>
+                                                            </a>
+
+                                                        </h6>
+                                                        <span class="d-block text-muted fw-bolder text-uppercase fs-9">
+                                                            @if (ViewBag.CartVersion[count].Version != null && 
+                                                                 ViewBag.CartVersion[count].Version != "N/A")
+                                                            {
+                                                                @string.Format($"Version: {@ViewBag.CartVersion[count].Version} / ")
+                                                            }
+                                                            Qty: @item.Value.Qty
+                                                        </span>
+                                                        <br />
+
+                                                        <form asp-action="UpdateCart">
+                                                            <input type="hidden" name="productId" value="@item.Key" />
+                                                            <input type="text" name="qty" value="@item.Value.Qty" style="max-width: 100px">
+                                                            <input type="submit" value="Update Quantity" 
+                                                                   class="d-inline text-muted fx-bolder text-uppercase fs-9">
+                                                        </form>
+
+                                                    </div>
+                                                    <p class="fw-bolder text-end text-muted m-0">
+                                                        @{
+                                                            decimal? lineTotal = ViewBag.CartVersion[count].Product.Price * item.Value.Qty;
+                                                            cartTotal += lineTotal;
+                                                        }
+                                                        @string.Format($"{@lineTotal:c}")
+
+                                                        @*@if (@item.Value.Qty > 1)
+                                                        {
+                                                            @Html.Raw("<br/>($" + @item.Value.VProduct.Product.Price + "/ea)")
+                                                        }*@
+
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <!-- / Cart Item-->
+                                            count++;
                                         }
                                     }
 
-                                    <a asp-action="Index" asp-controller="Products" class="btn btn-light w-100 text-center" role="button">
-                                        Back to Shopping</a>
+                                    <a asp-action="Category" asp-controller="Products" class="btn btn-light w-100 text-center" role="button">
+                                        Back to Shopping
+                                    </a>
 
                                 </tbody>
                             </table>
@@ -115,7 +131,7 @@
 
             <div class="col-12 col-lg-5 bg-light pt-lg-10 aside-checkout pb-5 pb-lg-0 my-5 my-lg-0">
                 <div class="p-4 py-lg-0 pe-lg-0 ps-lg-5">
-                    
+
                     @if (cartTotal > 0)
                     {
                         <div class="pb-4 border-bottom">
@@ -125,16 +141,17 @@
                                     <p class="m-0 fw-bold fs-5">Total</p>
                                     <span class="text-muted small">Sales tax not included</span>
                                 </div>
-                                <p class="m-0 fs-5 fw-bold">@cartTotal</p>
+                                <p class="m-0 fs-5 fw-bold">@string.Format($"{@cartTotal:c}")</p>
                             </div>
                         </div>
+
                         @* This section below contains the "Proceed to Checkout" button
                             This button currently contains the code to submit the order and create the OrderProducts record
                             as we originally did in GadgetStore. However, we cannot use this because we do not yet have
-                            user shipping details. 
+                            user shipping details.
 
                             This section will be updated to instead simply link to another page where another form
-                            can gather shipping info for the order. Once all details have been acquired for the order 
+                            can gather shipping info for the order. Once all details have been acquired for the order
                             and orderproducts records to be created, we can place this button on the appropriate screen
                             and submit to create the records.
                         *@
@@ -151,25 +168,22 @@
 
                         @* end Proceed to Checkout Button - Submits Orders and creates db records for order*@
                     }
-                    
-                </div>                    
-            </div>   
+
+                </div>
+            </div>
         </div>
     </div>
     <!-- /Page Content -->
 </section>
 <!-- / Main Section-->
-                    
+@* FOR REFERENCE ONLY
 
-
-@* FOR REFERENCE ONLY 
-
-                        *** Original styled Coupon Code Section
-                        <div class="py-4">
-                        <div class="input-group mb-0">
-                        <input type="text" class="form-control" placeholder="Enter coupon code">
-                        <button class="btn btn-secondary btn-sm px-4">Apply</button>
-                        </div>
-                        </div> 
-                        *** Original styled unlinked button
-                        <a href="./checkout.html" class="btn btn-dark w-100 text-center" role="button">Proceed to checkout</a>*@
+    *** Original styled Coupon Code Section
+    <div class="py-4">
+    <div class="input-group mb-0">
+    <input type="text" class="form-control" placeholder="Enter coupon code">
+    <button class="btn btn-secondary btn-sm px-4">Apply</button>
+    </div>
+    </div>
+    *** Original styled unlinked button
+    <a href="./checkout.html" class="btn btn-dark w-100 text-center" role="button">Proceed to checkout</a>*@
