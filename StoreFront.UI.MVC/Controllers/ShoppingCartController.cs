@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using StoreFront.DATA.EF.Models;
 using StoreFront.UI.MVC.Models;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace StoreFront.UI.MVC.Controllers
@@ -52,12 +53,54 @@ namespace StoreFront.UI.MVC.Controllers
             {
                 ViewBag.Message = null;
                 shoppingCart = JsonConvert.DeserializeObject<Dictionary<int, CartItemViewModel>>(sessionCart);
+
+               List<Product> products = _context.Products.Where(p => shoppingCart.Keys.Contains(p.Id)).ToList();
+
+                //foreach (var product in products)
+                //{
+                //    shoppingCart[product.Id].VProductId = product;
+                //}
+            }
+            List<VersionsProduct> versions = new List<VersionsProduct>();
+            List<Product> prods = new List<Product>();
+            foreach (var item in shoppingCart)
+            {
+                VersionsProduct v = _context.VersionsProducts.Where(vp => vp.Id == item.Value.VProductId).First();
+                versions.Add(v);
+                prods.Add(_context.Products.Where(p => p.Id == v.ProductId).First());
+                //prods.Add(v.Product);
+            }
+            ViewBag.CartVersion = versions;
+            ViewBag.CartProduct = prods;
+            return View(shoppingCart);
+        }
+
+        public IActionResult Checkout()
+        {
+            var sessionCart = HttpContext.Session.GetString("cart");
+            Dictionary<int, CartItemViewModel> shoppingCart = null;
+            if (sessionCart == null || sessionCart.Count() == 0)
+            {
+                shoppingCart = new Dictionary<int, CartItemViewModel>();
+                ViewBag.Message = "There are no items in your cart.";
+            }
+            else
+            {
+                ViewBag.Message = null;
+                shoppingCart = JsonConvert.DeserializeObject<Dictionary<int, CartItemViewModel>>(sessionCart);
+
+                List<Product> products = _context.Products.Where(p => shoppingCart.Keys.Contains(p.Id)).ToList();
+
+                //foreach (var product in products)
+                //{
+                //    shoppingCart[product.Id].VProduct.Product = product;
+                //}
             }
             return View(shoppingCart);
         }
 
         //added add to cart action
-        public IActionResult AddToCart(int id)
+        public IActionResult AddToCart(int? id)
         {
             //we are going to make a collection to store cart items
             //int (key) -> ProductID
@@ -97,10 +140,26 @@ namespace StoreFront.UI.MVC.Controllers
 
             // add newly selected products to the cart
             // retrieve product from the database
-            Product product = _context.Products.Find(id);
+            //VersionsProduct product = _context.VersionsProducts.ToList()
+            //    .Find(vp => vp.ProductId == id);
+
+            //VersionsProduct product = Request.Form["Version"].ToString()
+
+            /* This SelectedVersion form is populated by a list of versionsproducts stored in viewdata in the productscontroller
+               and passed to the Details view. The form is named SelectedVersion */
+            //string selectedVersion = Request.Form["SelectedVersion"].ToString();
+
+            if(id == null)
+            {
+                return NotFound();
+            }
+            
+            VersionsProduct product = _context.VersionsProducts.FirstOrDefault(vp => vp.Id == id);
+
+            //VersionsProduct product = _context.VersionsProducts.Where(vp => vp.Id == id).First();
 
             // instantiate the object so we can add to the cart
-            CartItemViewModel civm = new CartItemViewModel(1, product);
+            CartItemViewModel civm = new CartItemViewModel(1, product.Id);
 
             // check if the product is already in the cart.
             // if it is, increase quantity. if not, add it with quantity of 1
@@ -120,6 +179,7 @@ namespace StoreFront.UI.MVC.Controllers
             string jsonCart = JsonConvert.SerializeObject(shoppingCart);
             HttpContext.Session.SetString("cart", jsonCart);
 
+       
             return RedirectToAction("Index");
         }
 
@@ -194,7 +254,7 @@ namespace StoreFront.UI.MVC.Controllers
                 {
                     OrderId = o.Id,
                     Id = item.Key,
-                    ProductPrice = item.Value.Product.Price,
+                    ProductPrice = item.Value.VProductId,
                     UnitQuantity = (short)item.Value.Qty
                 };
 
@@ -207,7 +267,5 @@ namespace StoreFront.UI.MVC.Controllers
             return RedirectToAction("Index", "Orders");
 
         }
-
-
     }
 }

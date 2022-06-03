@@ -5,13 +5,15 @@ namespace StoreFront.UI.MVC.Models
     public class CartItemViewModel
     {
         public int Qty { get; set; }
-        public Product Product { get; set; }//containment - the use of a complex data type as a field/prop in a class
-        //complex data type - any class with multiple properties
 
-        public CartItemViewModel(int qty, Product product)
+        public int VProductId { get; set; }
+        //public VersionsProduct VProduct { get; set; }
+        //containment - the use of a complex data type as a field/prop in a class
+
+        public CartItemViewModel(int qty, int vProductId)
         {
             Qty = qty;
-            Product = product;
+            VProductId = vProductId;
         }
 
     }

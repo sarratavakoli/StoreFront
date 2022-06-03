@@ -55,12 +55,17 @@ namespace StoreFront.UI.MVC.Controllers
                 .Include(p => p.Supplier)
                 .Include(p => p.VersionsProducts)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (product == null)
             {
                 return NotFound();
             }
 
-            
+            //List<VersionsProduct> versions = _context.VersionsProducts.Where(vp => vp.ProductId == id).ToList();
+            //ViewData["Version"] = versions;
+
+            ViewData["Version"] = new SelectList(product.VersionsProducts, "Id", "Version");
+
             return View(product);
         }
 
@@ -70,6 +75,11 @@ namespace StoreFront.UI.MVC.Controllers
         {
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
             ViewData["SupplierId"] = new SelectList(_context.Suppliers, "Id", "Name");
+
+            //I would like to have the user redirected to the VersionsProducts index
+            //After creating a new product so that they may create Versions as needed, 
+            //however I do not have the productId yet to pass to RedirectToAction until Post
+            //return RedirectToAction("Index", "VersionsProducts", [ProductId]);
             return View();
         }
 
