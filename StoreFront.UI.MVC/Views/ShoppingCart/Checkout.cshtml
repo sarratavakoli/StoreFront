@@ -220,7 +220,9 @@
                 <div class="col-12 col-lg-5 bg-light pt-lg-10 aside-checkout pb-5 pb-lg-0 my-5 my-lg-0">
                     <div class="p-4 py-lg-0 pe-lg-0 ps-lg-5">
                         <div class="pb-3">
-
+                            @{
+                                int count = 0;
+                            }
                             <!-- Cart Item-->
                             @if (Model.Count == 0)
                             {
@@ -230,35 +232,36 @@
                             {
                                 @foreach (var item in Model)
                                 {
-                                    decimal? lineTotal = item.Value.VProductId * item.Value.Qty;
+                                    decimal? lineTotal = ViewBag.CartVersion[count].Product.Price * item.Value.Qty;
                                     cartTotal += lineTotal;
                                     
                                     <div class="row mx-0 py-4 g-0 border-bottom">
                                         <div class="col-2 position-relative">
                                             <span class="checkout-item-qty">@item.Value.Qty</span>
                                             <picture class="d-block border">
-                                                <img class="img-fluid" src="/assets/images/products/t_@item.Value" alt="@item.Value">
+                                                <img class="img-fluid" src="/assets/images/products/t_@ViewBag.CartProduct[count].Image" alt="@item.Value">
                                             </picture>
                                         </div>
                                         <div class="col-9 offset-1">
                                             <div>
                                                 <h6 class="justify-content-between d-flex align-items-start mb-2">
-                                                    @item.Value
+                                                    @ViewBag.CartProduct[count].Name
                                                     <i class="ri-close-line ms-3"></i>
                                                 </h6>
                                                 <span class="d-block text-muted fw-bolder text-uppercase fs-9">
-                                                    @if (@item.Value != null)
-                                                    {
-                                                        string.Format($"Version: {@item.Value} / ");
-                                                    }
-                                                    Qty: @item.Value.Qty
+                                                    @if (ViewBag.CartVersion[count].Version != null && 
+                                                                 ViewBag.CartVersion[count].Version != "N/A")
+                                                            {
+                                                                @string.Format($"{@ViewBag.CartVersion[count].Version}")
+                                                            }
+                                                    @*Qty: @item.Value.Qty*@
                                                 </span>
                                             </div>
-                                            <p class="fw-bolder text-end text-muted m-0">@string.Format($"{@item.Value:c}")</p>
+                                            <p class="fw-bolder text-end text-muted m-0">@string.Format($"{ViewBag.CartVersion[count].Product.Price:c}")</p>
                                         </div>
-                                    </div>
-
-                                }
+                                </div>
+                                count++;
+                            }
                             } <!-- / Cart Item-->
                         </div>
 

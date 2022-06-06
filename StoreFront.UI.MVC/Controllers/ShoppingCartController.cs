@@ -96,6 +96,17 @@ namespace StoreFront.UI.MVC.Controllers
                 //    shoppingCart[product.Id].VProduct.Product = product;
                 //}
             }
+            List<VersionsProduct> versions = new List<VersionsProduct>();
+            List<Product> prods = new List<Product>();
+            foreach (var item in shoppingCart)
+            {
+                VersionsProduct v = _context.VersionsProducts.Where(vp => vp.Id == item.Value.VProductId).First();
+                versions.Add(v);
+                prods.Add(_context.Products.Where(p => p.Id == v.ProductId).First());
+                //prods.Add(v.Product);
+            }
+            ViewBag.CartVersion = versions;
+            ViewBag.CartProduct = prods;
             return View(shoppingCart);
         }
 

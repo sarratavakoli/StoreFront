@@ -29,7 +29,7 @@
                                    href="@Url.Action("Index", "ShoppingCart")">Your Cart</a>
                             </li>
                             <li class="me-4">
-                                @if (@Model.Count() == 0)
+                                @if (@Model.Count() != 0)
                                 {
                                     <a class="nav-link-checkout" href="@Url.Action("Checkout", "ShoppingCart")">Information</a>
                                 }
@@ -145,20 +145,22 @@
                             </div>
                         </div>
 
-                        @* This section below contains the "Proceed to Checkout" button
-                            This button currently contains the code to submit the order and create the OrderProducts record
-                            as we originally did in GadgetStore. However, we cannot use this because we do not yet have
-                            user shipping details.
-
-                            This section will be updated to instead simply link to another page where another form
-                            can gather shipping info for the order. Once all details have been acquired for the order
-                            and orderproducts records to be created, we can place this button on the appropriate screen
-                            and submit to create the records.
-                        *@
+                        @* Basically the same as GadgetStore proceed to checkout button 
 
                         @if (@User.Identity.IsAuthenticated)
                         {
                             <a asp-action="SubmitOrder" class="btn btn-dark w-100 text-center" role="button">Proceed to checkout</a>
+                        }
+                        else
+                        {
+                            <p class="text-center mt-3"><span class="text-muted small" style="text-center">To place this order you must be logged in.</span></p>
+                            <button disabled="disabled" class="btn btn-dark w-100 text-center">Proceed to checkout</button>
+                        } 
+                        *@
+                        
+                        @if (@User.Identity.IsAuthenticated)
+                        {
+                            <a asp-action="Checkout" asp-controller="ShoppingCart" asp- class="btn btn-dark w-100 text-center" role="button">Proceed to checkout</a>
                         }
                         else
                         {
