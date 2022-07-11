@@ -19,14 +19,23 @@ namespace StoreFront.UI.MVC.Controllers
         {
             _context = context;
         }
-
+        
         // GET: VersionsProducts
         public async Task<IActionResult> Index(int? id)
         {
-            //updated to include id in parameter and where clause
-            var storeFrontContext = _context.VersionsProducts.Where(x => x.ProductId == id)
-                .Include(v => v.Product);
-            ViewData["ProductName"] = string.Format(_context.Products.Where(x => x.Id == id).First().Name);
+            IQueryable<VersionsProduct> storeFrontContext = null;
+            if (id == null)
+            {
+                storeFrontContext = _context.VersionsProducts.Include(v => v.Product);
+                ViewData["ProductName"] = "All Products";
+            }
+            else
+            {
+                //updated to include id in parameter and where clause
+                storeFrontContext = _context.VersionsProducts.Where(x => x.ProductId == id)
+                    .Include(v => v.Product);
+                ViewData["ProductName"] = string.Format("'" + _context.Products.Where(x => x.Id == id).First().Name + "'");
+            }
             return View(await storeFrontContext.ToListAsync());
         }
 
